@@ -11,5 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="register_link">"New to ChatterBox?\n<u>Register</u>"</string>
     <string name="LogoDescription">"ChatterBox Logo"</string>
+    <!-- Strings related to registration -->
+    <string name="reg_username">username</string>
 
 </resources>
