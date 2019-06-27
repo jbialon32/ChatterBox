@@ -13,5 +13,12 @@
     <string name="LogoDescription">"ChatterBox Logo"</string>
     <!-- Strings related to registration -->
     <string name="reg_username">username</string>
+    <string name="reg_email">email</string>
+    <string name="reg_firstname">first name</string>
+    <string name="reg_lastname">last name</string>
+    <string name="reg_password1">password</string>
+    <string name="reg_password2">reenter password</string>
+    <string name="terms_link">"I agree to Chatterbox's \n<u>Terms and Conditions</u>"</string>
+    <string name="reg_signup">Sign Up</string>
 
 </resources>
