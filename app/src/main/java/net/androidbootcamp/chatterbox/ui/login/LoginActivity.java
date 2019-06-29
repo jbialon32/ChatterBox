@@ -3,6 +3,7 @@ package net.androidbootcamp.chatterbox.ui.login;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -19,12 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.androidbootcamp.chatterbox.R;
+import net.androidbootcamp.chatterbox.RegistrationActivity;
 import net.androidbootcamp.chatterbox.ui.login.LoginViewModel;
 import net.androidbootcamp.chatterbox.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+
+    private TextView registerLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        //this is the reference for the registration textview
+        registerLink = (TextView)findViewById(R.id.registerLink);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -113,6 +120,17 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+        //this is the onClickListener for the registration textview
+        //also set clickable to true in activity_login.xml
+        registerLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //after click start start registration activity
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+            }
+        });
+
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
@@ -124,4 +142,6 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
+
+
 }
