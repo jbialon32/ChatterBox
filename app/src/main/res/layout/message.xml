@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The following chunk of code is taken and personalized from "https://www.scaledrone.com/blog/android-chat-tutorial/". The code is the layout for a chat message-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:background="@color/colorWhite"
+    android:clipToPadding="false">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBlueGray"
+        android:padding="4dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Placeholder Name - Time"
+        android:textColor="@color/colorBlueGray"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/message_body"
+        android:layout_below="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Placeholder message that is very very very very very very very very very long"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp" />
+
+
+    <!-- End of reference code -->
+</RelativeLayout>
