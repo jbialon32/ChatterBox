@@ -55,9 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/colorlightGray"
-            android:padding="10dp"
+            android:padding="16dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_email_black_24dp" /><!-- placeholder image, need to adjust padding dynamically or something -->
+            app:srcCompat="@drawable/ic_send_message_icon" /><!-- need to somehow adjust padding dynamically or something -->
     </LinearLayout>
     <!-- End of reference code -->
 </LinearLayout>
