@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.androidbootcamp.chatterbox.MenuActivity;
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.RegistrationActivity;
 import net.androidbootcamp.chatterbox.ui.login.LoginViewModel;
@@ -41,6 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        //Temp Chat Button
+        final Button chatButton = findViewById(R.id.chatbutton);
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //after click start start chat activity
+                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+            }
+        });
+        //End Temp Chat Button
 
         //this is the reference for the registration textview
         registerLink = (TextView)findViewById(R.id.registerLink);
