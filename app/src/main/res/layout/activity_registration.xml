@@ -160,19 +160,18 @@
         android:layout_height="48dp"
         android:layout_gravity="start"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/colorlightGray"
-        android:enabled="false"
+        android:enabled="true"
         android:text="@string/reg_signup"
         android:textColor="@color/colorBlueGray"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/termsAndConditions" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 
