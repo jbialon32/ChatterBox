@@ -66,11 +66,11 @@ public class    RegistrationActivity extends AppCompatActivity {
                             //boolean success = false;
                             Log.e("JSONRESPONSE", response);
                             JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                            int success = jsonResponse.getInt("success");
 
 
 
-                            if (success){
+                            if (success == 1){
                                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                 RegistrationActivity.this.startActivity(intent);
                             }else{
@@ -86,7 +86,7 @@ public class    RegistrationActivity extends AppCompatActivity {
                     }
                 };
 
-                RegisterRequest request = new RegisterRequest(uName, pass, fName, lName, eMail,responseListener );
+                RegisterRequest request = new RegisterRequest(eMail, uName, pass, fName, lName, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
                 queue.add(request);
                 Log.e("Queue","Register queue code ran!");
