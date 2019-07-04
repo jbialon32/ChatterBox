@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">ChatterBox</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="register_link">"New to ChatterBox?\n<u>Register</u>"</string>
+    <string name="LogoDescription">"ChatterBox Logo"</string>
+    <!-- Strings related to registration -->
+    <string name="reg_username">username</string>
+    <string name="reg_email">email</string>
+    <string name="reg_firstname">first name</string>
+    <string name="reg_lastname">last name</string>
+    <string name="reg_password1">password</string>
+    <string name="reg_password2">reenter password</string>
+    <string name="terms_link">"I agree to Chatterbox's \n<u>Terms and Conditions</u>"</string>
+    <string name="reg_signup">Sign Up</string>
+    <!-- Strings related to navbar -->
+    <string name="channel_title">#channel</string><!-- Would like to make this a variable for #channel -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings related to menu -->
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="menu_chatrooms">Change Chatroom</string>
+    <string name="menu_friends">View Friends</string>
+    <!-- Strings related to chat content -->
+    <string name="typing_box_hint">Message #channel</string><!-- Would like to make this a variable for Message #channel -->
+
+</resources>
