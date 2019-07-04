@@ -35,6 +35,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="menu_chatrooms">Change Chatroom</string>
+    <string name="menu_friends">View Friends</string>
     <!-- Strings related to chat content -->
     <string name="typing_box_hint">Message #channel</string><!-- Would like to make this a variable for Message #channel -->
 

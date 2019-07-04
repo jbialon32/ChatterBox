@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The following chunk of code is taken and personalized from "https://www.scaledrone.com/blog/android-chat-tutorial/". The code is the layout for a chat messenger -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,41 +13,32 @@
     tools:showIn="@layout/app_bar_main">
 
 
-    <ListView
-        android:id="@+id/messages_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@color/colorWhite"
-        android:divider="@color/colorBlueGray" />
-
-    <!-- A few temporary messages to test the UI; remove soon -->
-    <include layout="@layout/message"/>
-    <include layout="@layout/message"/>
-
+    <include layout="@layout/messages_list" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/colorlightGray"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/typingBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+
             android:layout_weight="2"
             android:background="@color/colorlightGray"
             android:ems="10"
+            android:gravity="start|top"
             android:hint="@string/typing_box_hint"
             android:inputType="textMultiLine"
             android:padding="10dp"
             android:text=""
             android:textColor="@color/colorBlack"
-            android:textColorHint="@color/colorBlueGray"
-            android:gravity="start|top"
-            />
+            android:textColorHint="@color/colorBlueGray" />
 
         <ImageButton
             android:id="@+id/typingSendButton"
@@ -55,9 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/colorlightGray"
-            android:padding="16dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_send_message_icon" /><!-- need to somehow adjust padding dynamically or something -->
+            app:srcCompat="@drawable/ic_send_message_icon" />
     </LinearLayout>
     <!-- End of reference code -->
-</LinearLayout>
+</RelativeLayout>

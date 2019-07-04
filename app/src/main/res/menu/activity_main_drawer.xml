@@ -3,7 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_chatrooms"
+            android:title="@string/menu_chatrooms" />
+        <item
+            android:id="@+id/nav_friends"
+            android:title="@string/menu_friends" />
+    </group>
+
+    <item android:title="Channels">
+        <menu>
+            <item
+                android:id="@+id/nav_filler"
+                android:title="#General" />
+            <item
+                android:id="@+id/nav_filler2"
+                android:title="#Programmer" />
+            <item
+                android:id="@+id/nav_filler3"
+                android:title="#Art" />
+            <item
+                android:id="@+id/nav_filler4"
+                android:title="#Games" />
+        </menu>
+    </item>
+
+    <!--<group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
@@ -20,9 +47,9 @@
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_tools" />
-    </group>
+    </group>-->
 
-    <item android:title="Communicate">
+<!--    <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
@@ -33,6 +60,6 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/menu_send" />
         </menu>
-    </item>
+    </item>-->
 
 </menu>
