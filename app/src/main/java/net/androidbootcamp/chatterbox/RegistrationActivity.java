@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
 import net.androidbootcamp.chatterbox.ui.login.LoginActivity;
+import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,8 +54,8 @@ public class    RegistrationActivity extends AppCompatActivity {
                 String eMail = email.getText().toString();
                 String fName = firstName.getText().toString();
                 String lName = lastName.getText().toString();
-                String pass = password.getText().toString();
-                String pass2 = passwordTwo.getText().toString();
+                String pass = Encrypt256.getSHA(password.getText().toString());         //Turn password into SHA-256
+                String pass2 = Encrypt256.getSHA(passwordTwo.getText().toString());     //Turn password into SHA-256
 
                 //todo Need data validation to make sure no blank fields
 
@@ -66,11 +67,11 @@ public class    RegistrationActivity extends AppCompatActivity {
                             //boolean success = false;
                             Log.e("JSONRESPONSE", response);
                             JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                            int success = jsonResponse.getInt("success");
 
 
 
-                            if (success){
+                            if (success == 1){
                                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                 RegistrationActivity.this.startActivity(intent);
                             }else{
@@ -86,7 +87,7 @@ public class    RegistrationActivity extends AppCompatActivity {
                     }
                 };
 
-                RegisterRequest request = new RegisterRequest(uName, pass, fName, lName, eMail,responseListener );
+                RegisterRequest request = new RegisterRequest(eMail, uName, pass, fName, lName, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
                 queue.add(request);
                 Log.e("Queue","Register queue code ran!");
