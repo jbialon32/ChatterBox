@@ -1,25 +1,14 @@
 package net.androidbootcamp.chatterbox.ui.login;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +16,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import net.androidbootcamp.chatterbox.LoginRequest;
 import net.androidbootcamp.chatterbox.MenuActivity;
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.RegistrationActivity;
 import net.androidbootcamp.chatterbox.encryption.Encrypt256;
-import net.androidbootcamp.chatterbox.ui.login.LoginViewModel;
-import net.androidbootcamp.chatterbox.ui.login.LoginViewModelFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
