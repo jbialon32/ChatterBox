@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox;
+package net.androidbootcamp.chatterbox.ui.login;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,7 +16,7 @@ public class LoginRequest extends StringRequest {
         params = new HashMap<>();
 
         params.put("username", username);
-        params.put("password", password);
+        params.put("user_pass", password);
 
     }
 
