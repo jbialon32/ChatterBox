@@ -5,9 +5,9 @@
   $db = connectSQL();
   $response = array();
   //Check for mandatory parameters username and the password to check
-  if(isset($_GET["username"]) && isset($_GET["user_pass"])){
-    $user = $_GET["username"];
-    $passAttempt = $_GET["user_pass"];
+  if(isset($_POST["username"]) && isset($_POST["user_pass"])){
+    $user = strToUpper($_POST["username"]);
+    $passAttempt = $_POST["user_pass"];
     //Query to fetch user id and password details
     $query = "SELECT id, pass FROM users WHERE user_name=? OR email=?";
     if($stmt = $db->prepare($query)){
