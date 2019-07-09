@@ -1,6 +1,5 @@
 package net.androidbootcamp.chatterbox;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,17 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.EditText;
 
-public class MenuActivity extends AppCompatActivity
+public class chatroomActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chatrooms);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -31,8 +27,6 @@ public class MenuActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
     @Override
@@ -67,8 +61,6 @@ public class MenuActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    //code adjusted from: https://medium.com/android-hunger/how-to-implement-navigation-drawer-in-your-android-app-with-an-example-48e08530339f
-
 
 
     @Override
@@ -76,7 +68,7 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_chatrooms) {
-            startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
+            //startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
         } else if (id == R.id.nav_friends) {
 
         } else if (id == R.id.nav_filler) {
@@ -102,7 +94,6 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }*/
-       //end code resource
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
