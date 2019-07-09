@@ -13,20 +13,20 @@
             android:title="@string/menu_friends" />
     </group>
 
-    <item android:title="Channels">
+    <item android:title="Chatrooms">
         <menu>
             <item
                 android:id="@+id/nav_filler"
-                android:title="#General" />
+                android:title="General" />
             <item
                 android:id="@+id/nav_filler2"
-                android:title="#Programmer" />
+                android:title="Programming" />
             <item
                 android:id="@+id/nav_filler3"
-                android:title="#Art" />
+                android:title="Art" />
             <item
                 android:id="@+id/nav_filler4"
-                android:title="#Games" />
+                android:title="Games" />
         </menu>
     </item>
 

@@ -27,7 +27,7 @@
         android:selectAllOnFocus="true"
         android:textColor="@color/colorBlueGray"
         android:textColorHint="@color/colorlightGray"
-        android:textSize="26sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
         android:selectAllOnFocus="true"
         android:textColor="@color/colorBlueGray"
         android:textColorHint="@color/colorlightGray"
-        android:textSize="26sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regUsername" />
@@ -69,7 +69,7 @@
         android:selectAllOnFocus="true"
         android:textColor="@color/colorBlueGray"
         android:textColorHint="@color/colorlightGray"
-        android:textSize="26sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regEmail" />
@@ -90,7 +90,7 @@
         android:selectAllOnFocus="true"
         android:textColor="@color/colorBlueGray"
         android:textColorHint="@color/colorlightGray"
-        android:textSize="26sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regFirstName" />
@@ -111,7 +111,7 @@
         android:selectAllOnFocus="true"
         android:textColor="@color/colorBlueGray"
         android:textColorHint="@color/colorlightGray"
-        android:textSize="26sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regLastName" />
@@ -132,7 +132,7 @@
         android:selectAllOnFocus="true"
         android:textColor="@color/colorBlueGray"
         android:textColorHint="@color/colorlightGray"
-        android:textSize="26sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regPassword1" />
@@ -167,10 +167,8 @@
         android:enabled="false"
         android:text="@string/reg_signup"
         android:textColor="@color/colorBlueGray"
-        android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/termsAndConditions" />
 
