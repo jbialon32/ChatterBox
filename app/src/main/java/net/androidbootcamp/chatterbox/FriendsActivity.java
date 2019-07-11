@@ -12,13 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-public class MenuActivity extends AppCompatActivity
+public class FriendsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_friends);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -71,9 +71,9 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_chatrooms) {
-            startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
+            startActivity(new Intent(FriendsActivity.this, chatroomActivity.class));
         } else if (id == R.id.nav_friends) {
-            startActivity(new Intent(MenuActivity.this, FriendsActivity.class));
+            //startActivity(new Intent(MenuActivity.this, FriendsActivity.class));
         } else if (id == R.id.nav_filler) {
 
         } else if (id == R.id.nav_filler2) {
@@ -97,7 +97,7 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }*/
-       //end code resource
+        //end code resource
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

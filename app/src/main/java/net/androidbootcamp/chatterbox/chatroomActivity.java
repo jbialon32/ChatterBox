@@ -1,5 +1,6 @@
 package net.androidbootcamp.chatterbox;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -70,7 +71,7 @@ public class chatroomActivity extends AppCompatActivity
         if (id == R.id.nav_chatrooms) {
             //startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
         } else if (id == R.id.nav_friends) {
-
+            startActivity(new Intent(chatroomActivity.this, FriendsActivity.class));
         } else if (id == R.id.nav_filler) {
 
         } else if (id == R.id.nav_filler2) {
