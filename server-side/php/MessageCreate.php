@@ -1,5 +1,5 @@
 <?php
-require 'SqlConnector.php';
+require '../req/SqlConnector.php';
 $response = array();
  
 //Check for mandatory parameters
@@ -24,7 +24,7 @@ if(isset($_POST["chatID"])&&isset($_POST["userID"])&&isset($_POST["message"])){
     }else{
       //Some error while inserting
       $response["success"] = 0;
-      $response["message"] = "Error while adding user";
+      $response["message"] = "Error while sending message";
     }					
   }else{
     //Some error while inserting
