@@ -12,9 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".FriendsActivity"
+            android:label="@string/title_activity_friends"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".chatroomActivity"
+            android:label="@string/title_activity_chatroom"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".MenuActivity"
             android:label="@string/channel_title"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegistrationActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
