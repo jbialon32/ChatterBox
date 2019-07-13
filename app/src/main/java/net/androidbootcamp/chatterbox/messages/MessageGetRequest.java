@@ -11,12 +11,12 @@ public class MessageGetRequest extends StringRequest {
     private static final String LOGIN_REQUEST_URL = "http://192.168.1.90/api/MessageGet.php";
     private Map<String, String> params;
 
-    public MessageGetRequest(String chatID, Response.Listener<String> listener) {
+    public MessageGetRequest(int chatID, Response.Listener<String> listener) {
         //todo Might need to change method
         super(Method.POST, LOGIN_REQUEST_URL, listener, null);
         params = new HashMap<>();
 
-        params.put("chatID", chatID);
+        params.put("chatID", chatID + "");
 
 
     }
