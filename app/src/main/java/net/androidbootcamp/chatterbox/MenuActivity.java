@@ -181,9 +181,9 @@ public class MenuActivity extends AppCompatActivity
         @Override
         public void run() {
 
-            //MessageGetRequest messageGetRequest = new MessageGetRequest(chatID, responseListener);
+            MessageGetRequest messageGetRequest = new MessageGetRequest(chatID, responseListener);
             RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-            //queue.add(messageGetRequest);
+            queue.add(messageGetRequest);
             mHandler.postDelayed(this, 1000);
         }
     };
