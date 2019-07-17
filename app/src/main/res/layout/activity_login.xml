@@ -126,5 +126,25 @@
         tools:layout_editor_absoluteX="99dp"
         tools:layout_editor_absoluteY="477dp" />
 
+    <TextView
+        android:id="@+id/helpLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+
+        android:clickable="true"
+        android:text="@string/help_link"
+        android:textColor="@color/colorBlueGray"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp" />
 
 </android.support.constraint.ConstraintLayout>

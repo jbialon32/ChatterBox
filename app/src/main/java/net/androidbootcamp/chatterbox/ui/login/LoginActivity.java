@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import net.androidbootcamp.chatterbox.HelpActivity;
 import net.androidbootcamp.chatterbox.MenuActivity;
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.RegistrationActivity;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private TextView registerLink;
+    private TextView helpLink;
 
 
 
@@ -60,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //this is the reference for the registration textview
         registerLink = (TextView)findViewById(R.id.registerLink);
+        helpLink = (TextView)findViewById(R.id.helpLink);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +133,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //after click start start registration activity
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+            }
+        });//end onCreate
+
+        helpLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //after click start start help activity
+                startActivity(new Intent(LoginActivity.this, HelpActivity.class));
             }
         });//end onCreate
 
