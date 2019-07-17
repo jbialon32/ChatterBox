@@ -135,6 +135,8 @@
     </string>
     <string name="title_activity_friends">Manage Friends</string>
     <string name="friend_username_hint">friend\'s username or email</string>
-    <string name="new_friends_description">Add a friend by username or email</string><!-- Would like to make this a variable for Message #channel -->
+    <string name="new_friends_description">Add a friend by username or email</string>
+    <string name="help_link">Help | Privacy | Terms and Conditions</string>
+    <string name="title_activity_help">Help | Privacy | Terms and Conditions</string>
 
 </resources>
