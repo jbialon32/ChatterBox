@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private TextView registerLink;
-    private ProgressDialog pDialog;
+
 
 
 
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String username = jsonResponse.getString("userID");
 
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                intent.putExtra("username", username);
+                                intent.putExtra("username", username); // passes the username received from userID to the MenuActivity
                                 LoginActivity.this.startActivity(intent);
                             }else{
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
