@@ -181,9 +181,9 @@ public class MenuActivity extends AppCompatActivity
         @Override
         public void run() {
 
-            MessageGetRequest messageGetRequest = new MessageGetRequest(chatID, responseListener);
+            //MessageGetRequest messageGetRequest = new MessageGetRequest(chatID, responseListener);
             RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-            queue.add(messageGetRequest);
+            //queue.add(messageGetRequest);
             mHandler.postDelayed(this, 1000);
         }
     };
@@ -229,6 +229,12 @@ public class MenuActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (id == R.id.nav_chatrooms) {
+            startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
+        } else if (id == R.id.nav_friends) {
+            startActivity(new Intent(MenuActivity.this, FriendsActivity.class));
+        }
 
        /* if (id == R.id.nav_home) {
             // Handle the camera action
