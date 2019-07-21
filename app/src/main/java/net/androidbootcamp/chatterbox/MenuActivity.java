@@ -308,7 +308,7 @@ public class MenuActivity extends AppCompatActivity
 
 
             if (adapter != null) {
-                messageList.clear();
+                //messageList.clear();
                 adapter.notifyDataSetChanged();
             }
 

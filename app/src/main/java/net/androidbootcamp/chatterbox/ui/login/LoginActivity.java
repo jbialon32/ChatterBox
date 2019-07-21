@@ -49,16 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        //Temp Chat Button
-        final Button chatButton = findViewById(R.id.chatbutton);
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //after click start start chat activity
-                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-            }
-        });
-        //End Temp Chat Button
+
 
         //this is the reference for the registration textview
         registerLink = (TextView)findViewById(R.id.registerLink);
