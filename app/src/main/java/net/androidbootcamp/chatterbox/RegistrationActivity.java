@@ -15,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import net.androidbootcamp.chatterbox.Requests.RegisterRequest;
 import net.androidbootcamp.chatterbox.ui.login.LoginActivity;
 import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 
@@ -57,15 +58,18 @@ public class    RegistrationActivity extends AppCompatActivity {
                 String pass = Encrypt256.getSHA(password.getText().toString());         //Turn password into SHA-256
                 String pass2 = Encrypt256.getSHA(passwordTwo.getText().toString());     //Turn password into SHA-256
 
+
+
                 //todo Need data validation to make sure no blank fields
+
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            //JSONObject jsonResponse = new JSONObject(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
-                            //boolean success = false;
+
                             Log.e("JSONRESPONSE", response);
+
                             JSONObject jsonResponse = new JSONObject(response);
                             int success = jsonResponse.getInt("success");
 

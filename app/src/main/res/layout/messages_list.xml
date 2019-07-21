@@ -24,7 +24,7 @@
             android:background="@color/colorWhite"
             android:divider="@color/colorBlueGray" />
 
-        <!-- A few temporary messages to test the UI; remove soon-->
+        <!-- A few temporary messages to test the UI; remove soon
         <include layout="@layout/message"/>
         <include layout="@layout/message"/>
         <include layout="@layout/message"/>
@@ -32,7 +32,7 @@
         <include layout="@layout/message"/>
         <include layout="@layout/message"/>
         <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
+        <include layout="@layout/message"/> -->
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
