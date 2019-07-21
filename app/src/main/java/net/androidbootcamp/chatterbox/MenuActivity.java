@@ -44,9 +44,11 @@ import java.util.Map;
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String KEY_SUCCESS = "success";
     private static final String KEY_USERID = "user";
     private static final String KEY_CHATID = "chat";
     private static final String KEY_MESSAGE = "message";
+    private static final String KEY_TIMESTAMP = "timestamp";
 
     //holds username from LoginActivity
     private String loggedInUser;
@@ -355,6 +357,12 @@ public class MenuActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (id == R.id.nav_chatrooms) {
+            startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
+        } else if (id == R.id.nav_friends) {
+            startActivity(new Intent(MenuActivity.this, FriendsActivity.class));
+        }
 
        /* if (id == R.id.nav_home) {
             // Handle the camera action
