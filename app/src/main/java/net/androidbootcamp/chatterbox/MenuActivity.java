@@ -109,6 +109,8 @@ public class MenuActivity extends AppCompatActivity
         newMessage = (EditText)findViewById(R.id.typingBox);
         sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
 
+        scrollMyListViewToBottom();
+
 
 
 
@@ -230,8 +232,8 @@ public class MenuActivity extends AppCompatActivity
                             //adjusts listview height based on messages (needed because we used scrollview)
                             Utils.setListViewHeightBasedOnChildren(messageListView);
 
-                            //scrollMyListViewToBottom();
-                            messageListView.smoothScrollToPosition(adapter.getCount() - 1);
+
+                            //messageListView.smoothScrollToPosition(adapter.getCount() - 1);
 
 
                             Log.e("list count", String.valueOf(messageListView.getCount()));
@@ -268,7 +270,11 @@ public class MenuActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
 
+
+
             }//end onResponse
+
+
 
 
         };//end response listener
