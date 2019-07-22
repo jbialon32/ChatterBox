@@ -70,6 +70,12 @@ public class MenuActivity extends AppCompatActivity
 
     private SimpleAdapter adapter;
 
+    private boolean initialMessageRequest;
+
+    private String timeStampIndex = "";
+
+    //private RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,14 +92,14 @@ public class MenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
+        initialMessageRequest = true;
 
 
 
         //reference for listview
         messageListView = (ListView)findViewById(R.id.messages_view);
-        messageListView.setTranscriptMode(messageListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        messageListView.setStackFromBottom(true);
+        //messageListView.setTranscriptMode(messageListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        //messageListView.setStackFromBottom(true);
 
         //gets the username we passed from LoginActivity
         Intent intent = getIntent();
@@ -102,6 +108,9 @@ public class MenuActivity extends AppCompatActivity
         //references to new message edittext and send message button
         newMessage = (EditText)findViewById(R.id.typingBox);
         sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
+
+
+
 
 
 
@@ -143,33 +152,59 @@ public class MenuActivity extends AppCompatActivity
         responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+
+
                 try {
+
+
                     JSONObject jsonResponse = new JSONObject(response);
                     int success = jsonResponse.getInt("success");
                     Log.e("JsonResponse", response);
 
                     if(success == 1) {
                         JSONArray messagesInfo = jsonResponse.getJSONArray("data");
-                        //Log.e("MessageFactory", messagesInfo.toString());
-
-                        //messageList.clear();
-                        for(int i=0; i < messagesInfo.length(); i++){
-                            JSONObject messageInfo = messagesInfo.getJSONObject(i);
-                            //chatID = messageInfo.getInt("chat_id");
-                            String username = messageInfo.getString("user");
-                            String message = messageInfo.getString("message");
-                            String timestamp = messageInfo.getString("timestamp");
-                            //MessageObject msgObject = new MessageObject(chatID, username, message, timestamp);
-                            //availableMessages.add(msgObject);
-
-                            HashMap<String,String> map = new HashMap<>();
-                            //map.put("chat_id", String.valueOf(chatID));
-                            map.put("user", username);
-                            map.put("message", message);
-                            map.put("timestamp", timestamp);
+                        Log.e("responseListener", messagesInfo.toString());
 
 
-                            messageList.add(map);
+                        if (!messagesInfo.isNull(0)) {
+                            for(int i=0; i < messagesInfo.length(); i++){
+                                Log.d("Inside for loop", "made it inside for loop");
+
+
+
+
+                                JSONObject messageInfo = messagesInfo.getJSONObject(i);
+                                //chatID = messageInfo.getInt("chat_id");
+                                String username = messageInfo.getString("user");
+                                String message = messageInfo.getString("message");
+                                String timestamp = messageInfo.getString("timestamp");
+
+                                //this will keep the timestamp of the last item in the map
+                                timeStampIndex = timestamp;
+
+                                HashMap<String,String> map = new HashMap<>();
+                                //map.put("chat_id", String.valueOf(chatID));
+                                map.put("user", username);
+                                map.put("message", message);
+                                map.put("timestamp", timestamp);
+
+
+                                messageList.add(map);
+
+
+
+
+
+
+
+
+                                Log.e("messageList contents", messageList.toString());
+
+
+
+
+                            }
 
 
 
@@ -177,40 +212,50 @@ public class MenuActivity extends AppCompatActivity
                         }
 
 
+                        if (messageList != null) {
+                            // adapter to display arraylist using message.xml as formating
+
+                            adapter = new SimpleAdapter(MenuActivity.this,
+                                    messageList,
+                                    R.layout.message,
+                                    new String[]{KEY_USERID, KEY_MESSAGE},
+                                    new int[]{R.id.name, R.id.message_body});
+
+
+                            //sets adapter for the listview
+                            messageListView.setAdapter(adapter);
 
 
 
-                        // adapter to display arraylist using message.xml as formating
+                            //adjusts listview height based on messages (needed because we used scrollview)
+                            Utils.setListViewHeightBasedOnChildren(messageListView);
 
-                        adapter = new SimpleAdapter(MenuActivity.this,
-                                messageList,
-                                R.layout.message,
-                                new String[]{KEY_USERID, KEY_MESSAGE},
-                                new int[]{R.id.name, R.id.message_body});
+                            //scrollMyListViewToBottom();
+                            messageListView.smoothScrollToPosition(adapter.getCount() - 1);
 
 
-                        //sets adapter for the listview
-                        messageListView.setAdapter(adapter);
+                            Log.e("list count", String.valueOf(messageListView.getCount()));
 
-                        adapter.notifyDataSetChanged();
 
-                        //adjusts listview height based on messages (needed because we used scrollview)
-                        Utils.setListViewHeightBasedOnChildren(messageListView);
 
-                        scrollMyListViewToBottom();
 
-                        Log.e("list count", String.valueOf(messageListView.getCount()));
+                        }//end if
+
+
+                        Log.e("timestampindex", timeStampIndex);
 
 
 
 
 
-                    }else {
-                        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    }else if (success == 0){
+                        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
                         builder.setMessage(jsonResponse.getString("message"))
                                 .setNegativeButton("OK", null)
                                 .create()
                                 .show();
+                    }else{
+                        Log.e("Response", jsonResponse.getString("message"));
                     }
 
 
@@ -228,20 +273,53 @@ public class MenuActivity extends AppCompatActivity
 
         };//end response listener
 
-        //requests the initial messages
-        MessageGetRequest messageGetRequest = new MessageGetRequest(1, responseListener);
-        RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-        queue.add(messageGetRequest);
+
+            // adapter to display arraylist using message.xml as formating
+
+        /*if (messageList.size() > 0) {
+            adapter = new SimpleAdapter(MenuActivity.this,
+                    messageList,
+                    R.layout.message,
+                    new String[]{KEY_USERID, KEY_MESSAGE},
+                    new int[]{R.id.name, R.id.message_body});
+
+
+            //sets adapter for the listview
+            messageListView.setAdapter(adapter);
+
+
+            //adjusts listview height based on messages (needed because we used scrollview)
+            Utils.setListViewHeightBasedOnChildren(messageListView);
+
+            //scrollMyListViewToBottom();
+            messageListView.smoothScrollToPosition(adapter.getCount() - 1);
+
+            messageList.clear();
+            Log.e("list count", String.valueOf(messageListView.getCount()));
+        }*/
+
 
         //start delayed Runnable to get messages every 1 second
         getMessageRunnable.run();
+
+        if (initialMessageRequest) {
+            //requests the initial messages
+            MessageGetRequest messageGetRequest = new MessageGetRequest(1, responseListener);
+            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+            //queue.getCache().clear();
+            queue.add(messageGetRequest);
+            initialMessageRequest = false;
+            //queue.getCache().clear();
+        }
+
+
 
 
 
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo OnClickListener for send message button.
+
                 String newUserMessage = newMessage.getText().toString();
                 Log.e("Sending text contents", newUserMessage);
 
@@ -253,6 +331,7 @@ public class MenuActivity extends AppCompatActivity
                     Log.e("After sentRequest", "sent request");
                     newMessage.setText("");
                     closeKeyboard();
+                    adapter.notifyDataSetChanged();
 
                 }else{
                     //newMessage.setError("Type in Message!");
@@ -289,6 +368,7 @@ public class MenuActivity extends AppCompatActivity
                 if (adapter != null) {
                     // Select the last row so it will scroll into view...
                     messageListView.setSelection(adapter.getCount() - 1);
+                    messageListView.smoothScrollToPosition(adapter.getCount() - 1);
                 }
             }
         });
@@ -296,23 +376,26 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-    //todo Need to fix this when i figure how, also not exactly sure where to put this
+
     //  this is the code to stop the Runnable:   mHandler.removeCallbacks(getMessageRunnable);
     Runnable getMessageRunnable = new Runnable() {
         @Override
         public void run() {
 
-            MessageGetRequest messageGetRequest = new MessageGetRequest(chatID, responseListener);
-            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-            queue.add(messageGetRequest);
+            //this calls a different constructor for MessageGetRequest which is supposed to return only new messages
+            if (initialMessageRequest == false) {
+                MessageGetRequest refreshRequest = new MessageGetRequest(1, timeStampIndex, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+                //queue.getCache().clear();
+                queue.add(refreshRequest);
 
 
-            if (adapter != null) {
-                //messageList.clear();
-                adapter.notifyDataSetChanged();
+
+                Log.d("messageList size", String.valueOf(messageList.size()));
             }
 
-            mHandler.postDelayed(this, 2000);
+
+            mHandler.postDelayed(this, 5000);
         }
     };
 
