@@ -13,7 +13,7 @@ public class ChatroomInfoRequest extends StringRequest{
     private Map<String, String> params;
 
     public ChatroomInfoRequest(int userID, Response.Listener<String> listener) {
-        //todo Might need to change method
+
         super(Method.POST, LOGIN_REQUEST_URL, listener, null);
         params = new HashMap<>();
 

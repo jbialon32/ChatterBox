@@ -1,6 +1,5 @@
 package net.androidbootcamp.chatterbox.ui.login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +19,7 @@ import net.androidbootcamp.chatterbox.HelpActivity;
 import net.androidbootcamp.chatterbox.MenuActivity;
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.RegistrationActivity;
+import net.androidbootcamp.chatterbox.Requests.LoginRequest;
 import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 
 import org.json.JSONException;
@@ -49,16 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        //Temp Chat Button
-        final Button chatButton = findViewById(R.id.chatbutton);
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //after click start start chat activity
-                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-            }
-        });
-        //End Temp Chat Button
+
 
         //this is the reference for the registration textview
         registerLink = (TextView)findViewById(R.id.registerLink);
@@ -79,17 +70,18 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.e("onResponse", "Made it in onResponse");
+
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             int success = jsonResponse.getInt("success");
+                            Log.e("Response: ", response);
 
 
                             if (success == 1){
-                                String username = jsonResponse.getString("userID");
+                                String userID = jsonResponse.getString("userID");
 
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                intent.putExtra("username", username); // passes the username received from userID to the MenuActivity
+                                intent.putExtra("userID", userID); // passes the username received from userID to the MenuActivity
                                 LoginActivity.this.startActivity(intent);
                             }else{
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
