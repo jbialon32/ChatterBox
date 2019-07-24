@@ -1,5 +1,7 @@
 package net.androidbootcamp.chatterbox.chatrooms;
 
+import java.util.ArrayList;
+
 public class ChatroomObject {
 
     private int chatID;
@@ -12,6 +14,7 @@ public class ChatroomObject {
         chatName = name;
     }
 
+    //For use if creator wants to use a password for their chat
     public ChatroomObject(int id, String name, String password) {
         chatID = id;
         chatName = name;

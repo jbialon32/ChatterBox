@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox.ui.login;
+package net.androidbootcamp.chatterbox.Requests;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginRequest extends StringRequest {
-    private static final String LOGIN_REQUEST_URL = "http://192.168.1.90/api/passAuth.php";
+    //private static final String LOGIN_REQUEST_URL = "http://192.168.1.90/api/passAuth.php";
+    //private static final String LOGIN_REQUEST_URL = "http://192.168.0.37/api/passAuth.php";
+    private static final String LOGIN_REQUEST_URL = "http://teamblues.x10host.com/passAuth.php";
     private Map<String, String> params;
 
     public LoginRequest(String username, String password, Response.Listener<String> listener) {

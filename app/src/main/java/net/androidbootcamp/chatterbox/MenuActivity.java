@@ -1,36 +1,45 @@
 package net.androidbootcamp.chatterbox;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import net.androidbootcamp.chatterbox.Requests.SendMessageRequest;
+import net.androidbootcamp.chatterbox.messages.MessageFactory;
 import net.androidbootcamp.chatterbox.messages.MessageGetRequest;
+import net.androidbootcamp.chatterbox.messages.MessageObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,15 +55,26 @@ public class MenuActivity extends AppCompatActivity
 
     private ListView messageListView;
 
-    private ArrayList<HashMap<String, String>> messageList;
+    private ArrayList<HashMap<String, String>> messageList = new ArrayList<>();
 
     private EditText newMessage;
     private ImageButton sendMessageBtn;
 
     private Handler mHandler = new Handler();
-    private String chatID;
+    private int chatID;
 
-    Response.Listener<String> responseListener;
+    private Response.Listener<String> responseListener;
+    private Response.Listener<String> sendListener;
+
+    private ArrayList<HashMap<String, String>> availableMessages = new ArrayList<>();
+
+    private SimpleAdapter adapter;
+
+    private boolean initialMessageRequest;
+
+    private String timeStampIndex = "";
+
+    //private RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);;
 
 
     @Override
@@ -72,29 +92,60 @@ public class MenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //start delayed Runnable to get messages every 1 second
-        getMessageRunnable.run();
+        initialMessageRequest = true;
+
+
 
         //reference for listview
         messageListView = (ListView)findViewById(R.id.messages_view);
+        //messageListView.setTranscriptMode(messageListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        //messageListView.setStackFromBottom(true);
 
         //gets the username we passed from LoginActivity
         Intent intent = getIntent();
-        loggedInUser = intent.getStringExtra("username");
+        loggedInUser = intent.getStringExtra("userID");
 
         //references to new message edittext and send message button
         newMessage = (EditText)findViewById(R.id.typingBox);
         sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
 
-        sendMessageBtn.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+
+
+
+
+        //listens for response from sending a message
+        sendListener = new Response.Listener<String>() {
             @Override
-            public void onClick(View view) {
-                //todo OnClickListener for send message button.
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    int success = jsonResponse.getInt("success");
+                    Log.e("Sent jsonresponse", String.valueOf(jsonResponse));
+
+                    if (success == 1){
+                        String message = jsonResponse.getString("message");
+
+                        Toast.makeText(MenuActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                        builder.setMessage(jsonResponse.getString("message"))
+                                .setNegativeButton("OK", null)
+                                .create()
+                                .show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        });
-
-
-
+        };
 
 
 
@@ -104,56 +155,113 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onResponse(String response) {
 
+
+
                 try {
+
+
                     JSONObject jsonResponse = new JSONObject(response);
-                    int success = jsonResponse.getInt(KEY_SUCCESS);
+                    int success = jsonResponse.getInt("success");
+                    Log.e("JsonResponse", response);
 
-                    if (success == 1){
-                        // references to responses and a hashmap to contain them
-                        String username = jsonResponse.getString(KEY_USERID);
-                        String message = jsonResponse.getString(KEY_MESSAGE);
-                        String timestamp = jsonResponse.getString(KEY_TIMESTAMP);
-                        HashMap<String, String> map = new HashMap<>();
+                    if(success == 1) {
+                        JSONArray messagesInfo = jsonResponse.getJSONArray("data");
+                        Log.e("responseListener", messagesInfo.toString());
 
-                        // adds the responses to a HashMap
-                        map.put(KEY_USERID, username);
-                        map.put(KEY_MESSAGE, message);
-                        map.put(KEY_TIMESTAMP, timestamp);
 
-                        //adds the HashMap to an ArrayList to use in a adapter
-                        messageList.add(map);
+                        if (!messagesInfo.isNull(0)) {
+                            for(int i=0; i < messagesInfo.length(); i++){
+                                Log.d("Inside for loop", "made it inside for loop");
 
-                        //adapter to insert arraylist with server response to listview
-                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                        //first arg is the context
-                        //second arg is the arraylist being used
-                        //third arg is the layout file being used to display the listview items in a certain way, in this case message.xml
-                        //fourth arg is a String array which holds the keys to arraylist to display their values
-                        //fifth arg is a int array which holds the references to the view in message.xml or what goes where
-                        ListAdapter adapter = new SimpleAdapter(MenuActivity.this,
-                                                                messageList,
-                                                                R.layout.message,
-                                                                new String[]{KEY_USERID + "-" + KEY_TIMESTAMP, KEY_MESSAGE},
-                                                                new int[]{R.id.name, R.id.message_body});
 
-                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                        //sets adapter for the listview
-                        messageListView.setAdapter(adapter);
+                                JSONObject messageInfo = messagesInfo.getJSONObject(i);
+                                //chatID = messageInfo.getInt("chat_id");
+                                String username = messageInfo.getString("user");
+                                String message = messageInfo.getString("message");
+                                String timestamp = messageInfo.getString("timestamp");
+
+                                //this will keep the timestamp of the last item in the map
+                                timeStampIndex = timestamp;
+
+                                HashMap<String,String> map = new HashMap<>();
+                                //map.put("chat_id", String.valueOf(chatID));
+                                map.put("user", username);
+                                map.put("message", message);
+                                map.put("timestamp", timestamp);
+
+
+                                messageList.add(map);
 
 
 
 
 
-                    //something went wrong with the database, display the error message from response
-                    }else{
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+
+
+
+                                Log.e("messageList contents", messageList.toString());
+
+
+
+
+                            }
+
+
+
+
+                        }
+
+
+                        if (messageList != null) {
+                            // adapter to display arraylist using message.xml as formating
+
+                            adapter = new SimpleAdapter(MenuActivity.this,
+                                    messageList,
+                                    R.layout.message,
+                                    new String[]{KEY_USERID, KEY_MESSAGE},
+                                    new int[]{R.id.name, R.id.message_body});
+
+
+                            //sets adapter for the listview
+                            messageListView.setAdapter(adapter);
+
+
+
+                            //adjusts listview height based on messages (needed because we used scrollview)
+                            Utils.setListViewHeightBasedOnChildren(messageListView);
+
+                            scrollMyListViewToBottom();
+                            //messageListView.smoothScrollToPosition(adapter.getCount() - 1);
+
+
+                            Log.e("list count", String.valueOf(messageListView.getCount()));
+
+
+
+
+                        }//end if
+
+
+                        Log.e("timestampindex", timeStampIndex);
+
+
+
+
+
+                    }else if (success == 0){
+                        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
                         builder.setMessage(jsonResponse.getString("message"))
                                 .setNegativeButton("OK", null)
                                 .create()
                                 .show();
+                    }else{
+                        Log.e("Response", jsonResponse.getString("message"));
                     }
+
+
+
 
 
 
@@ -163,8 +271,80 @@ public class MenuActivity extends AppCompatActivity
                 }
 
 
-            }
+
+            }//end onResponse
+
+
+
+
         };//end response listener
+
+
+            // adapter to display arraylist using message.xml as formating
+
+        /*if (messageList.size() > 0) {
+            adapter = new SimpleAdapter(MenuActivity.this,
+                    messageList,
+                    R.layout.message,
+                    new String[]{KEY_USERID, KEY_MESSAGE},
+                    new int[]{R.id.name, R.id.message_body});
+
+
+            //sets adapter for the listview
+            messageListView.setAdapter(adapter);
+
+
+            //adjusts listview height based on messages (needed because we used scrollview)
+            Utils.setListViewHeightBasedOnChildren(messageListView);
+
+            //scrollMyListViewToBottom();
+            messageListView.smoothScrollToPosition(adapter.getCount() - 1);
+
+            messageList.clear();
+            Log.e("list count", String.valueOf(messageListView.getCount()));
+        }*/
+
+
+        //start delayed Runnable to get messages every 1 second
+        getMessageRunnable.run();
+
+        if (initialMessageRequest) {
+            //requests the initial messages
+            MessageGetRequest messageGetRequest = new MessageGetRequest(1, responseListener);
+            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+            //queue.getCache().clear();
+            queue.add(messageGetRequest);
+            initialMessageRequest = false;
+            //queue.getCache().clear();
+        }
+
+
+
+
+
+        sendMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String newUserMessage = newMessage.getText().toString();
+                Log.e("Sending text contents", newUserMessage);
+
+                if (!newUserMessage.equals("")){
+
+                    SendMessageRequest sendMessageRequest = new SendMessageRequest(1, loggedInUser, newUserMessage,sendListener);
+                    RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+                    queue.add(sendMessageRequest);
+                    Log.e("After sentRequest", "sent request");
+                    newMessage.setText("");
+                    closeKeyboard();
+                    adapter.notifyDataSetChanged();
+
+                }else{
+                    //newMessage.setError("Type in Message!");
+                    Toast.makeText(MenuActivity.this, "Type In Text!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
 
@@ -175,16 +355,53 @@ public class MenuActivity extends AppCompatActivity
 
     }//end onCreate
 
-    //todo Need to fix this when i figure how, also not exactly sure where to put this
+
+    //Got this from https://codinginflow.com/tutorials/android/hide-soft-keyboard-programmatically
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
+    //Got this from https://stackoverflow.com/questions/22680596/how-to-make-the-listview-scroll-vertically-up-automatically-when-items-are-added
+    private void scrollMyListViewToBottom() {
+        messageListView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (adapter != null) {
+                    // Select the last row so it will scroll into view...
+                    messageListView.setSelection(adapter.getCount() - 1);
+                    messageListView.smoothScrollToPosition(adapter.getCount() - 1);
+                }
+            }
+        });
+    }
+
+
+
+
     //  this is the code to stop the Runnable:   mHandler.removeCallbacks(getMessageRunnable);
     Runnable getMessageRunnable = new Runnable() {
         @Override
         public void run() {
 
-            //MessageGetRequest messageGetRequest = new MessageGetRequest(chatID, responseListener);
-            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-            //queue.add(messageGetRequest);
-            mHandler.postDelayed(this, 1000);
+            //this calls a different constructor for MessageGetRequest which is supposed to return only new messages
+            if (initialMessageRequest == false) {
+                MessageGetRequest refreshRequest = new MessageGetRequest(1, timeStampIndex, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+                //queue.getCache().clear();
+                queue.add(refreshRequest);
+
+
+
+                Log.d("messageList size", String.valueOf(messageList.size()));
+            }
+
+
+            mHandler.postDelayed(this, 5000);
         }
     };
 
