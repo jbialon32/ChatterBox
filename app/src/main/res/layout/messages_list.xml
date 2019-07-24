@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".chatroomActivity"
-    tools:showIn="@layout/activity_chatrooms">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:focusableInTouchMode="true"
 
-    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListView
+        android:id="@+id/messages_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clipToPadding="false"
-        android:focusableInTouchMode="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_weight="2"
+        android:background="@color/colorWhite"
+        android:divider="@color/colorBlueGray" />
 
-        <ListView
-            android:id="@+id/messages_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:background="@color/colorWhite"
-            android:divider="@color/colorBlueGray" />
+    <!-- A few temporary messages to test the UI; remove soon
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>
+    <include layout="@layout/message"/>-->
 
-        <!-- A few temporary messages to test the UI; remove soon-->
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-        <include layout="@layout/message"/>
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+    <!-- a spacer so that the message box doesn't overlap the messages -->
+    <TextView
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Placeholder message that is very very very very very very very very very long"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
+</LinearLayout>
 
 

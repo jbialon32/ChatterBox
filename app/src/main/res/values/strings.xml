@@ -35,8 +35,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="menu_chatrooms">Change Chatroom</string>
-    <string name="menu_friends">View Friends</string>
+    <string name="menu_chatrooms">Chatrooms</string>
+    <string name="menu_friends">Friends</string>
     <!-- Strings related to chat content -->
     <string name="typing_box_hint">Message chatroom</string>
     <string name="title_activity_chatroom">Manage Chatrooms</string>
@@ -135,6 +135,8 @@
     </string>
     <string name="title_activity_friends">Manage Friends</string>
     <string name="friend_username_hint">friend\'s username or email</string>
-    <string name="new_friends_description">Add a friend by username or email</string><!-- Would like to make this a variable for Message #channel -->
+    <string name="new_friends_description">Add a friend by username or email</string>
+    <string name="help_link">Help | Privacy | Terms and Conditions</string>
+    <string name="title_activity_help">Help | Privacy | Terms and Conditions</string>
 
 </resources>

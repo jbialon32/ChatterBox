@@ -72,7 +72,7 @@ public class chatroomActivity extends AppCompatActivity
             //startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
         } else if (id == R.id.nav_friends) {
             startActivity(new Intent(chatroomActivity.this, FriendsActivity.class));
-        } else if (id == R.id.nav_filler) {
+        } /*else if (id == R.id.nav_filler) {
 
         } else if (id == R.id.nav_filler2) {
 
@@ -80,7 +80,7 @@ public class chatroomActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_filler4) {
 
-        }
+        }*/
 
        /* if (id == R.id.nav_home) {
             // Handle the camera action

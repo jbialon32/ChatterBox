@@ -13,7 +13,7 @@
             android:title="@string/menu_friends" />
     </group>
 
-    <item android:title="Chatrooms">
+    <!--<item android:title="Chatrooms">
         <menu>
             <item
                 android:id="@+id/nav_filler"
@@ -28,7 +28,7 @@
                 android:id="@+id/nav_filler4"
                 android:title="Games" />
         </menu>
-    </item>
+    </item>-->
 
     <!--<group android:checkableBehavior="single">
         <item
