@@ -51,4 +51,24 @@ public class ChatroomFactory {
         return availableChatrooms;
     }
 
+    //Sorts through an ArrayList of chat rooms checking for the active chat
+    public ChatroomObject getActive(ArrayList<ChatroomObject> chatroomList){
+        ChatroomObject currChat;
+        ChatroomObject activeChat;
+
+        //Loop through the list of chat rooms
+        for (int i=0; i < (chatroomList.size()); i++){
+            //Assign current chat room being checked.
+            currChat = chatroomList.get(i);
+            //if chat room is active return that chat room
+            if(currChat.isActive()){
+                return currChat;
+            }
+        }
+
+        //If no active chat is found assign index 0 as active chat room.
+        chatroomList.get(0).setActive(true);
+        return chatroomList.get(0);
+    }
+
 }

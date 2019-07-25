@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import net.androidbootcamp.chatterbox.Requests.RegisterRequest;
 import net.androidbootcamp.chatterbox.ui.login.LoginActivity;
 import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 
@@ -54,9 +55,11 @@ public class    RegistrationActivity extends AppCompatActivity {
 
 
 
+
                 if (!DataEmpty()){
                     //if the data is not empty, do all the following
                     Toast.makeText(RegistrationActivity.this, "You've completely filled out the form!", Toast.LENGTH_SHORT).show();
+
 
 
                     String uName = username.getText().toString();
