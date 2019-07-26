@@ -36,15 +36,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * This method binds the data to the views in the ViewHolder
      * @param viewHolder A passed in ViewHolder
      * @param i Index
+     *
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final MessageObject messageObject = messageObjectsList.get(i);
         viewHolder.message.setText(messageObject.getMessage());
-        String nameAndTime = messageObject.getUsername() + " - " + messageObject.getTimestamp();
 
-
-        viewHolder.name.setText(nameAndTime);
+        viewHolder.name.setText(messageObject.getUsername());
+        viewHolder.time.setText(messageObject.getTimestamp());
 
 
     }
@@ -62,6 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView message;
         public TextView name;
         public LinearLayout linearLayout;
+        public TextView time;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -70,6 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             message = itemView.findViewById(R.id.message_body);
             name = itemView.findViewById(R.id.name);
             linearLayout = itemView.findViewById(R.id.linearLayout);
+            time = itemView.findViewById(R.id.time);
         }
 
 
