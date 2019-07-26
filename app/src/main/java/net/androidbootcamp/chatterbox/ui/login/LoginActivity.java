@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = Encrypt256.getSHA(passwordEditText.getText().toString());
 
-
+                Log.e("Login", "made it in login click listener");
 
                 //todo need to add data validation to username and password to make sure they are not blank and email is a valid address
 
