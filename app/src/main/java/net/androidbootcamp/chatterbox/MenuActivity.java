@@ -46,11 +46,7 @@ import java.util.Map;
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String KEY_SUCCESS = "success";
-    private static final String KEY_USERID = "user";
-    private static final String KEY_CHATID = "chat";
-    private static final String KEY_MESSAGE = "message";
-    private static final String KEY_TIMESTAMP = "timestamp";
+
 
     //holds username from LoginActivity
     private String loggedInUser;
@@ -72,15 +68,15 @@ public class MenuActivity extends AppCompatActivity
     private Response.Listener<String> sendListener;
     private Response.Listener<String> refreshListener;
 
-    private ArrayList<HashMap<String, String>> availableMessages = new ArrayList<>();
 
-    //private SimpleAdapter adapter;
+
+
 
     private boolean initialMessageRequest;
 
     private String timeStampIndex = "";
 
-    //private RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);;
+
 
 
     @Override
@@ -102,18 +98,13 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-        //reference for listview
+        //reference for recyclerview
         messageListView = (RecyclerView) findViewById(R.id.messages_view);
         messageListView.setHasFixedSize(true);
         messageListView.setLayoutManager(new LinearLayoutManager(this));
 
 
 
-
-
-
-        //messageListView.setTranscriptMode(messageListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        //messageListView.setStackFromBottom(true);
 
         //gets the username we passed from LoginActivity
         Intent intent = getIntent();
@@ -122,13 +113,6 @@ public class MenuActivity extends AppCompatActivity
         //references to new message edittext and send message button
         newMessage = (EditText)findViewById(R.id.typingBox);
         sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
-
-
-
-
-
-
-
 
 
 
@@ -193,11 +177,7 @@ public class MenuActivity extends AppCompatActivity
                                 //this will keep the timestamp of the last item in the map
                                 timeStampIndex = timestamp;
 
-                               /* HashMap<String,String> map = new HashMap<>();
-                                //map.put("chat_id", String.valueOf(chatID));
-                                map.put("user", username);
-                                map.put("message", message);
-                                map.put("timestamp", timestamp);*/
+
 
 
                                 messageList.add(msgObject);
@@ -284,26 +264,10 @@ public class MenuActivity extends AppCompatActivity
                                 //this will keep the timestamp of the last item in the map
                                 timeStampIndex = timestamp;
 
-                               /* HashMap<String,String> map = new HashMap<>();
-                                //map.put("chat_id", String.valueOf(chatID));
-                                map.put("user", username);
-                                map.put("message", message);
-                                map.put("timestamp", timestamp);*/
-
 
                                 messageList.add(msgObject);
 
-
-
-
                                 lastItemInList = messageList.size()-1;
-
-
-
-
-
-
-
 
                                 Log.e("messageList contents", messageList.toString());
 
@@ -314,12 +278,11 @@ public class MenuActivity extends AppCompatActivity
                             recyclerAdapter = new RecyclerViewAdapter(messageList, getApplicationContext());
 
 
-                            recyclerAdapter.notifyItemRangeChanged(lastItemInList, messageList.size()-1);
 
-
-                            recyclerAdapter.notifyDataSetChanged();
 
                             messageListView.setAdapter(recyclerAdapter);
+
+                            //scrolls to last item in list in adapter
                             messageListView.scrollToPosition(recyclerAdapter.getItemCount()-1);
 
 
@@ -328,34 +291,6 @@ public class MenuActivity extends AppCompatActivity
                         }//end if messageList not null
 
 
-                        /*if (messageList != null) {
-                            // adapter to display arraylist using message.xml as formating
-
-                            adapter = new SimpleAdapter(MenuActivity.this,
-                                    messageList,
-                                    R.layout.message,
-                                    new String[]{KEY_USERID, KEY_MESSAGE},
-                                    new int[]{R.id.name, R.id.message_body});
-
-
-                            //sets adapter for the listview
-                            messageListView.setAdapter(adapter);
-
-
-
-                            //adjusts listview height based on messages (needed because we used scrollview)
-                            //Utils.setListViewHeightBasedOnChildren(messageListView);
-
-                            //scrollMyListViewToBottom();
-                            //messageListView.smoothScrollToPosition(adapter.getCount() - 1);
-
-
-                            Log.e("list count", String.valueOf(messageListView.getChildCount()));
-
-
-
-
-                        }//end if*/
 
 
                         Log.e("timestampindex", timeStampIndex);
@@ -394,29 +329,6 @@ public class MenuActivity extends AppCompatActivity
         };//end response listener
 
 
-            // adapter to display arraylist using message.xml as formating
-
-        /*if (messageList.size() > 0) {
-            adapter = new SimpleAdapter(MenuActivity.this,
-                    messageList,
-                    R.layout.message,
-                    new String[]{KEY_USERID, KEY_MESSAGE},
-                    new int[]{R.id.name, R.id.message_body});
-
-
-            //sets adapter for the listview
-            messageListView.setAdapter(adapter);
-
-
-            //adjusts listview height based on messages (needed because we used scrollview)
-            Utils.setListViewHeightBasedOnChildren(messageListView);
-
-            //scrollMyListViewToBottom();
-            messageListView.smoothScrollToPosition(adapter.getCount() - 1);
-
-            messageList.clear();
-            Log.e("list count", String.valueOf(messageListView.getCount()));
-        }*/
 
 
         //start delayed Runnable to get messages every 1 second
@@ -451,10 +363,10 @@ public class MenuActivity extends AppCompatActivity
                     Log.e("After sentRequest", "sent request");
                     newMessage.setText("");
                     closeKeyboard();
-                    //adapter.notifyDataSetChanged();
+
 
                 }else{
-                    //newMessage.setError("Type in Message!");
+
                     Toast.makeText(MenuActivity.this, "Type In Text!", Toast.LENGTH_LONG).show();
                 }
             }
@@ -473,19 +385,7 @@ public class MenuActivity extends AppCompatActivity
     }
 
 
-    //Got this from https://stackoverflow.com/questions/22680596/how-to-make-the-listview-scroll-vertically-up-automatically-when-items-are-added
-    private void scrollMyListViewToBottom() {
-        messageListView.post(new Runnable() {
-            @Override
-            public void run() {
-               /* if (adapter != null) {
-                    // Select the last row so it will scroll into view...
-                    messageListView.setSelection(adapter.getCount() - 1);
-                    messageListView.smoothScrollToPosition(adapter.getCount() - 1);
-                }*/
-            }
-        });
-    }
+
 
 
 
@@ -499,10 +399,8 @@ public class MenuActivity extends AppCompatActivity
             if (initialMessageRequest == false) {
                 MessageGetRequest refreshRequest = new MessageGetRequest(1, timeStampIndex, refreshListener);
                 RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-                //queue.getCache().clear();
+
                 queue.add(refreshRequest);
-
-
 
                 Log.d("messageList size", String.valueOf(messageList.size()));
             }
