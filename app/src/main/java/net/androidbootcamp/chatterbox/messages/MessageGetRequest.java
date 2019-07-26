@@ -19,7 +19,6 @@ public class MessageGetRequest extends StringRequest {
 
         params.put("chat_id", String.valueOf(chatID));
 
-
     }
 
     public MessageGetRequest(int chatID,String timeStampIndex,Response.Listener<String> listener) {
@@ -30,9 +29,6 @@ public class MessageGetRequest extends StringRequest {
 
         params.put("chat_id", String.valueOf(chatID));
         params.put("timestampindex", timeStampIndex);
-
-
-
 
     }
 
