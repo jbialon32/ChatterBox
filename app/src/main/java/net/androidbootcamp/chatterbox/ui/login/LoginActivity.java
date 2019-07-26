@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerLink;
     private TextView helpLink;
 
+    private ProgressBar progressBar;
+
 
 
 
@@ -51,16 +54,18 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        //this is the reference for the registration textview
+
+        //references
         registerLink = (TextView)findViewById(R.id.registerLink);
         helpLink = (TextView)findViewById(R.id.helpLink);
+        progressBar = findViewById(R.id.loading);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String username = usernameEditText.getText().toString();
                 String password = Encrypt256.getSHA(passwordEditText.getText().toString());
-
+                progressBar.setVisibility(View.VISIBLE);
                 Log.e("Login", "made it in login click listener");
 
                 //todo need to add data validation to username and password to make sure they are not blank and email is a valid address
@@ -69,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
 
 
                         try {
@@ -83,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 intent.putExtra("userID", userID); // passes the username received from userID to the MenuActivity
                                 LoginActivity.this.startActivity(intent);
+                                progressBar.setVisibility(View.INVISIBLE);
                             }else{
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(jsonResponse.getString("message"))

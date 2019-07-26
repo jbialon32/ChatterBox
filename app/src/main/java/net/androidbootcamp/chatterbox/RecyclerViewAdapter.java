@@ -41,7 +41,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final MessageObject messageObject = messageObjectsList.get(i);
         viewHolder.message.setText(messageObject.getMessage());
-        viewHolder.name.setText(messageObject.getUsername());
+        String nameAndTime = messageObject.getUsername() + " - " + messageObject.getTimestamp();
+
+
+        viewHolder.name.setText(nameAndTime);
 
 
     }

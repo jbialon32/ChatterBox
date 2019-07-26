@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -51,16 +52,21 @@ public class MenuActivity extends AppCompatActivity
     //holds username from LoginActivity
     private String loggedInUser;
 
-    private RecyclerView messageListView;
+
     private RecyclerView.Adapter recyclerAdapter;
 
-
+    //this will hold message objects
     private ArrayList<MessageObject> messageList = new ArrayList<>();
 
+
+    //references
     private EditText newMessage;
     private ImageButton sendMessageBtn;
+    private RecyclerView messageListView;
+
 
     private Handler mHandler = new Handler();
+
     private int chatID;
     private int lastItemInList;
 
@@ -98,10 +104,13 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-        //reference for recyclerview
+        //references
         messageListView = (RecyclerView) findViewById(R.id.messages_view);
         messageListView.setHasFixedSize(true);
         messageListView.setLayoutManager(new LinearLayoutManager(this));
+
+        newMessage = (EditText)findViewById(R.id.typingBox);
+        sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
 
 
 
@@ -110,9 +119,8 @@ public class MenuActivity extends AppCompatActivity
         Intent intent = getIntent();
         loggedInUser = intent.getStringExtra("userID");
 
-        //references to new message edittext and send message button
-        newMessage = (EditText)findViewById(R.id.typingBox);
-        sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
+
+
 
 
 

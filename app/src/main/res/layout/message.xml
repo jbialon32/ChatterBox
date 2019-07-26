@@ -26,6 +26,8 @@
         android:textColor="@color/colorBlueGray"
         android:textSize="14sp"/>
 
+
+
     <TextView
         android:id="@+id/message_body"
         android:layout_below="@+id/name"
