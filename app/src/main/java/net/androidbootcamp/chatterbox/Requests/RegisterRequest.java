@@ -6,6 +6,11 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class if for building a request to send to the server for registration.
+ */
+
+//REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
 public class RegisterRequest extends StringRequest {
     //private static final String REGISTER_REQUEST_URL = "http://192.168.1.90/api/CreateUser.php";
     //private static final String REGISTER_REQUEST_URL = "http://192.168.0.37/api/CreateUser.php";

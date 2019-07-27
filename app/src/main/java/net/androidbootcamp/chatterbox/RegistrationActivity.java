@@ -23,7 +23,10 @@ import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * This class is for the Registration Activity. It provides EditText fields for the user to fill out and checks to make
+ * sure none of the fields are blank before sending them to the server.
+ */
 
 public class    RegistrationActivity extends AppCompatActivity {
 
@@ -39,6 +42,7 @@ public class    RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        //references
         username = (EditText)findViewById(R.id.regUsername);
         email = (EditText)findViewById(R.id.regEmail);
         firstName = (EditText)findViewById(R.id.regFirstName);
@@ -55,7 +59,7 @@ public class    RegistrationActivity extends AppCompatActivity {
 
 
 
-
+                //data validation for all fields
                 if (!DataEmpty()){
                     //if the data is not empty, do all the following
                     Toast.makeText(RegistrationActivity.this, "You've completely filled out the form!", Toast.LENGTH_SHORT).show();
@@ -69,39 +73,44 @@ public class    RegistrationActivity extends AppCompatActivity {
                     String pass = Encrypt256.getSHA(password.getText().toString());         //Turn password into SHA-256
                     String pass2 = Encrypt256.getSHA(passwordTwo.getText().toString());     //Turn password into SHA-256
 
-
+                    //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
-                                //JSONObject jsonResponse = new JSONObject(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
-                                //boolean success = false;
-                                Log.e("JSONRESPONSE", response);
+
+
+                                //store response in JSONObject
                                 JSONObject jsonResponse = new JSONObject(response);
+
+                                //get the value of "success. 1 if success, 0 if not"
                                 int success = jsonResponse.getInt("success");
 
 
-
+                                //success
                                 if (success == 1){
+                                    //go back to login
                                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                     RegistrationActivity.this.startActivity(intent);
                                 }else{
+
+                                    //display errors
                                     AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
                                     builder.setMessage("Register failed!").setNegativeButton("Ok", null).create().show();
                                 }
 
                             } catch (JSONException e) {
-                                Toast.makeText(RegistrationActivity.this, "Didn't work!", Toast.LENGTH_SHORT).show();
-
+                                //Exceptions
                                 e.printStackTrace();
                             }
                         }
                     };
 
+                    //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
+                    //send request to queue then to server
                     RegisterRequest request = new RegisterRequest(eMail, uName, pass, fName, lName, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
                     queue.add(request);
-                    Log.e("Queue","Register queue code ran!");
 
                 }
 
@@ -116,12 +125,13 @@ public class    RegistrationActivity extends AppCompatActivity {
 
     //reference code from: https://www.codebrainer.com/blog/registration-form-in-android-check-email-is-valid-is-empty
 
+    //checks if string from a field is empty returns boolean
     boolean isEmpty(EditText text) {
         CharSequence str = text.getText().toString();
         return TextUtils.isEmpty(str);
     }
 
-
+    //checks each field if data is empty if it is displays error message and returns true
     boolean DataEmpty() {
 
         if (isEmpty(username)) {
