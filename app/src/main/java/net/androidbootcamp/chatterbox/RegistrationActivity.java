@@ -115,7 +115,7 @@ public class    RegistrationActivity extends AppCompatActivity {
     }//end onCreate
 
     //reference code from: https://www.codebrainer.com/blog/registration-form-in-android-check-email-is-valid-is-empty
-    //todo Need data validation to make sure no blank fields
+
     boolean isEmpty(EditText text) {
         CharSequence str = text.getText().toString();
         return TextUtils.isEmpty(str);
