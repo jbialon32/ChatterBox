@@ -7,6 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+/**
+ * This class displays help info and terms and conditions.
+ */
+
+
+
+
+
 public class HelpActivity extends AppCompatActivity {
 
     @Override

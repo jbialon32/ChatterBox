@@ -18,21 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import net.androidbootcamp.chatterbox.Adapters.RecyclerViewAdapter;
 import net.androidbootcamp.chatterbox.Requests.SendMessageRequest;
-import net.androidbootcamp.chatterbox.messages.MessageFactory;
 import net.androidbootcamp.chatterbox.messages.MessageGetRequest;
 import net.androidbootcamp.chatterbox.messages.MessageObject;
 
@@ -41,18 +36,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+/**
+ * This class is for the Menu Activity. It is the main chat UI that displays the messages from the chatroom
+ * and lets the user enter and send new messages.
+ */
+
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
 
-    //holds username from LoginActivity
+    //holds userID from LoginActivity
     private String loggedInUser;
 
-
+    //adapter
     private RecyclerView.Adapter recyclerAdapter;
 
     //this will hold message objects
@@ -64,7 +63,7 @@ public class MenuActivity extends AppCompatActivity
     private ImageButton sendMessageBtn;
     private RecyclerView messageListView;
 
-
+    //repeats a runnable that gets new messages
     private Handler mHandler = new Handler();
 
     private int chatID;
@@ -77,9 +76,10 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-
+    //boolean to check if is the initalrequest to run different code if not
     private boolean initialMessageRequest;
 
+    //stores message timestamp to use when getting new messages
     private String timeStampIndex = "";
 
 
@@ -108,14 +108,13 @@ public class MenuActivity extends AppCompatActivity
         messageListView = (RecyclerView) findViewById(R.id.messages_view);
         messageListView.setHasFixedSize(true);
         messageListView.setLayoutManager(new LinearLayoutManager(this));
-
         newMessage = (EditText)findViewById(R.id.typingBox);
         sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
 
 
 
 
-        //gets the username we passed from LoginActivity
+        //gets the userID we passed from LoginActivity
         Intent intent = getIntent();
         loggedInUser = intent.getStringExtra("userID");
 
@@ -136,9 +135,11 @@ public class MenuActivity extends AppCompatActivity
                     if (success == 1){
                         String message = jsonResponse.getString("message");
 
+                        //gets the success message from server and displays it
                         Toast.makeText(MenuActivity.this, message, Toast.LENGTH_SHORT).show();
 
                     }else{
+                        //displays error
                         android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
                         builder.setMessage(jsonResponse.getString("message"))
                                 .setNegativeButton("OK", null)
@@ -154,7 +155,7 @@ public class MenuActivity extends AppCompatActivity
         };
 
 
-
+        //this is for listening for response from the server for new messages
         refreshListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -170,16 +171,23 @@ public class MenuActivity extends AppCompatActivity
                         JSONArray messagesInfo = jsonResponse.getJSONArray("data");
                         Log.e("responseListenerArray", messagesInfo.toString());
 
-
+                        //if the response array is not empty
                         if (!messagesInfo.isNull(0)) {
+
+                            //loops through response array
                             for(int i=0; i < messagesInfo.length(); i++){
                                 Log.d("Inside for loop", "made it inside for loop");
 
+                                //stors the JSONObjects from the array one at a time
                                 JSONObject messageInfo = messagesInfo.getJSONObject(i);
+
+                                //these store the values from the name/value pairs
                                 chatID = messageInfo.getInt("chat");
                                 String username = messageInfo.getString("user");
                                 String message = messageInfo.getString("message");
                                 String timestamp = messageInfo.getString("timestamp");
+
+                                //creates new MessageObject with the values from the JSONObjects
                                 MessageObject msgObject = new MessageObject(chatID, username, message, timestamp);
 
                                 //this will keep the timestamp of the last item in the map
@@ -187,28 +195,32 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-
+                                //adds the MessageObject to an arraylist
                                 messageList.add(msgObject);
 
-                                Log.e("messageList contents", messageList.toString());
 
 
 
 
                             }//end for loop
 
+
+                            //lets adapter know the data is updated from a certain index in array
                             recyclerAdapter.notifyItemRangeChanged(lastItemInList, messageList.size()-1);
 
-
+                            //notify adapter data has changed
                             recyclerAdapter.notifyDataSetChanged();
+
+                            //automatically scrolls to last item in recyclerview
                             messageListView.scrollToPosition(recyclerAdapter.getItemCount()-1);
+
+                            //stores new last item index from array
                             lastItemInList = messageList.size()-1;
 
 
                         }//end if messageList not null
 
 
-                        Log.e("timestampindex", timeStampIndex);
 
 
 
@@ -275,6 +287,8 @@ public class MenuActivity extends AppCompatActivity
 
                                 messageList.add(msgObject);
 
+
+                                //stores initial index of last item in array
                                 lastItemInList = messageList.size()-1;
 
                                 Log.e("messageList contents", messageList.toString());
@@ -283,11 +297,13 @@ public class MenuActivity extends AppCompatActivity
 
 
                             }//end for loop
+
+                            //creates new adapter for recyclerview
                             recyclerAdapter = new RecyclerViewAdapter(messageList, getApplicationContext());
 
 
 
-
+                            //sets adapter to recyclerview
                             messageListView.setAdapter(recyclerAdapter);
 
                             //scrolls to last item in list in adapter
@@ -301,7 +317,6 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-                        Log.e("timestampindex", timeStampIndex);
 
 
 
@@ -339,7 +354,7 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-        //start delayed Runnable to get messages every 1 second
+        //start delayed Runnable to get messages every 5 seconds
         getMessageRunnable.run();
 
         if (initialMessageRequest) {
@@ -355,7 +370,7 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-
+        //listener for sent button
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -363,13 +378,18 @@ public class MenuActivity extends AppCompatActivity
                 String newUserMessage = newMessage.getText().toString();
                 Log.e("Sending text contents", newUserMessage);
 
+                //if not blank do this
                 if (!newUserMessage.equals("")){
 
+                    //makes a send request to the server
                     SendMessageRequest sendMessageRequest = new SendMessageRequest(1, loggedInUser, newUserMessage,sendListener);
                     RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
                     queue.add(sendMessageRequest);
-                    Log.e("After sentRequest", "sent request");
+
+                    //resets the new message input field to blank
                     newMessage.setText("");
+
+                    //makes the keyboard go away
                     closeKeyboard();
 
 
@@ -410,10 +430,9 @@ public class MenuActivity extends AppCompatActivity
 
                 queue.add(refreshRequest);
 
-                Log.d("messageList size", String.valueOf(messageList.size()));
             }
 
-
+            //repeats this runnable every 5 seconds
             mHandler.postDelayed(this, 5000);
         }
     };
@@ -421,7 +440,7 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-
+    //menu stuff
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

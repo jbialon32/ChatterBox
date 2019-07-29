@@ -26,6 +26,12 @@ import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This class is for the login activity. It provides users a username and password inputs. Also a registration link and terms and conditions
+ * link.
+ */
+
+
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -64,12 +70,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String username = usernameEditText.getText().toString();
+
+                //encrypts pass word for sending to server
                 String password = Encrypt256.getSHA(passwordEditText.getText().toString());
+
+                //make progress bar visible
                 progressBar.setVisibility(View.VISIBLE);
                 Log.e("Login", "made it in login click listener");
 
                 //todo need to add data validation to username and password to make sure they are not blank and email is a valid address
 
+
+
+
+                //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
                 //Response from server
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -82,15 +96,24 @@ public class LoginActivity extends AppCompatActivity {
                             int success = jsonResponse.getInt("success");
                             Log.e("Response: ", response);
 
-
+                            // if server says it succeded do this
                             if (success == 1){
                                 String userID = jsonResponse.getString("userID");
 
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+
+                                //this will pass the userID sent from server to the MenuActivity
                                 intent.putExtra("userID", userID); // passes the username received from userID to the MenuActivity
+
+                                //start the MenuActivity
                                 LoginActivity.this.startActivity(intent);
+
+                                //make the progress bar go away
                                 progressBar.setVisibility(View.INVISIBLE);
                             }else{
+
+
+                                //displays error message from server in not success
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(jsonResponse.getString("message"))
                                         .setNegativeButton("OK", null)
@@ -115,8 +138,8 @@ public class LoginActivity extends AppCompatActivity {
                 };
 
 
-
-
+                //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
+                //this sends the request to a queue then to server
                 LoginRequest loginRequest = new LoginRequest(username, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(loginRequest);
@@ -133,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                 //after click start start registration activity
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
-        });//end onCreate
+        });
 
         helpLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,9 +164,9 @@ public class LoginActivity extends AppCompatActivity {
                 //after click start start help activity
                 startActivity(new Intent(LoginActivity.this, HelpActivity.class));
             }
-        });//end onCreate
+        });
 
-    }//end LoginActivity
+    }//end onCreate
 
 
 

@@ -2,6 +2,7 @@
 <!-- The following chunk of code is taken and personalized from "https://www.scaledrone.com/blog/android-chat-tutorial/". The code is the layout for a chat message-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
