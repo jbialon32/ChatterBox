@@ -1,13 +1,15 @@
 package net.androidbootcamp.chatterbox.messages;
 
-import java.util.HashMap;
+/**
+ * This class is for a message data model.
+ */
 
 public class MessageObject {
     private int chatID;
     private String username;
     private String message;
     private String timestamp;
-    private HashMap<String, String> map;
+    //private HashMap<String, String> map;
 
     public MessageObject(int chat_ID, String user, String messageText, String timeSent){
         chatID = chat_ID;
@@ -15,14 +17,10 @@ public class MessageObject {
         message = messageText;
         timestamp = timeSent;
 
-        map.put("username", user);
-        map.put("message", messageText);
-        map.put("timestamp", timeSent);
+
     }
 
-    public HashMap<String, String> getMap() {
-        return map;
-    }
+
 
     public int getChatID() {
         return chatID;

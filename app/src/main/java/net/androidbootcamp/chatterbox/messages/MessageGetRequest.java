@@ -21,6 +21,7 @@ public class MessageGetRequest extends StringRequest {
 
     }
 
+    //this constructor accepts additional timestampIndex and uses different URL than other constructor
     public MessageGetRequest(int chatID,String timeStampIndex,Response.Listener<String> listener) {
 
 

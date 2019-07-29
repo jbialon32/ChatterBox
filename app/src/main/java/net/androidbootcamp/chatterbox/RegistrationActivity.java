@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,11 @@ import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This class is for the Registration Activity. It provides EditText fields for the user to fill out and checks to make
+ * sure none of the fields are blank before sending them to the server.
+ */
+
 public class    RegistrationActivity extends AppCompatActivity {
 
     EditText username,email, firstName, lastName, password, passwordTwo;
@@ -36,6 +42,7 @@ public class    RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        //references
         username = (EditText)findViewById(R.id.regUsername);
         email = (EditText)findViewById(R.id.regEmail);
         firstName = (EditText)findViewById(R.id.regFirstName);
@@ -51,52 +58,61 @@ public class    RegistrationActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                String uName = username.getText().toString();
-                String eMail = email.getText().toString();
-                String fName = firstName.getText().toString();
-                String lName = lastName.getText().toString();
-                String pass = Encrypt256.getSHA(password.getText().toString());         //Turn password into SHA-256
-                String pass2 = Encrypt256.getSHA(passwordTwo.getText().toString());     //Turn password into SHA-256
+
+                //data validation for all fields
+                if (!DataEmpty()){
+                    //if the data is not empty, do all the following
+                    Toast.makeText(RegistrationActivity.this, "You've completely filled out the form!", Toast.LENGTH_SHORT).show();
 
 
 
-                //todo Need data validation to make sure no blank fields
+                    String uName = username.getText().toString();
+                    String eMail = email.getText().toString();
+                    String fName = firstName.getText().toString();
+                    String lName = lastName.getText().toString();
+                    String pass = Encrypt256.getSHA(password.getText().toString());         //Turn password into SHA-256
+                    String pass2 = Encrypt256.getSHA(passwordTwo.getText().toString());     //Turn password into SHA-256
+
+                    //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
+                                //store response in JSONObject
+                                JSONObject jsonResponse = new JSONObject(response);
 
-                            Log.e("JSONRESPONSE", response);
-
-                            JSONObject jsonResponse = new JSONObject(response);
-                            int success = jsonResponse.getInt("success");
+                                //get the value of "success. 1 if success, 0 if not"
+                                int success = jsonResponse.getInt("success");
 
 
+                                //success
+                                if (success == 1){
+                                    //go back to login
+                                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                    RegistrationActivity.this.startActivity(intent);
+                                }else{
 
-                            if (success == 1){
-                                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                                RegistrationActivity.this.startActivity(intent);
-                            }else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
-                                builder.setMessage("Register failed!").setNegativeButton("Ok", null).create().show();
+                                    //display errors
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+                                    builder.setMessage("Register failed!").setNegativeButton("Ok", null).create().show();
+                                }
+
+                            } catch (JSONException e) {
+                                //Exceptions
+                                e.printStackTrace();
                             }
-
-                        } catch (JSONException e) {
-                            Toast.makeText(RegistrationActivity.this, "Didn't work!", Toast.LENGTH_SHORT).show();
-
-                            e.printStackTrace();
                         }
-                    }
-                };
+                    };
 
-                RegisterRequest request = new RegisterRequest(eMail, uName, pass, fName, lName, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
-                queue.add(request);
-                Log.e("Queue","Register queue code ran!");
+                    //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
+                    //send request to queue then to server
+                    RegisterRequest request = new RegisterRequest(eMail, uName, pass, fName, lName, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
+                    queue.add(request);
 
-
+                }
 
             }
         });
@@ -106,4 +122,49 @@ public class    RegistrationActivity extends AppCompatActivity {
 
 
     }//end onCreate
+
+    //reference code from: https://www.codebrainer.com/blog/registration-form-in-android-check-email-is-valid-is-empty
+
+    //checks if string from a field is empty returns boolean
+    boolean isEmpty(EditText text) {
+        CharSequence str = text.getText().toString();
+        return TextUtils.isEmpty(str);
+    }
+
+    //checks each field if data is empty if it is displays error message and returns true
+    boolean DataEmpty() {
+
+        if (isEmpty(username)) {
+            username.setError("Username is required!");
+            return true;
+        }
+        else if (isEmpty(email)) {
+            lastName.setError("Email is required!");
+            return true;
+        }
+        else if (isEmpty(firstName)) {
+            firstName.setError("First name is required!");
+            return true;
+        }
+        else if (isEmpty(lastName)) {
+            lastName.setError("Last name is required!");
+            return true;
+        }
+
+        else if (isEmpty(password)) {
+            password.setError("Password is required!");
+            return true;
+        }
+        else if (isEmpty(passwordTwo)) {
+            passwordTwo.setError("Password is required!");
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    //end reference code
+
+
+
 }//end class
