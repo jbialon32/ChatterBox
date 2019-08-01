@@ -209,7 +209,7 @@ public class MenuActivity extends AppCompatActivity
                             recyclerAdapter.notifyItemRangeChanged(lastItemInList, messageList.size()-1);
 
                             //notify adapter data has changed
-                            recyclerAdapter.notifyDataSetChanged();
+                            //recyclerAdapter.notifyDataSetChanged();
 
                             //automatically scrolls to last item in recyclerview
                             messageListView.scrollToPosition(recyclerAdapter.getItemCount()-1);

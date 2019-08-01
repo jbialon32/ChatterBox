@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .setNegativeButton("OK", null)
                                         .create()
                                         .show();
+                                progressBar.setVisibility(View.INVISIBLE);
 
                             }
 

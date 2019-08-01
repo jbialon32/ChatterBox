@@ -8,7 +8,7 @@
         android:duration="500"
         />
 
-    <translate android:fromYDelta="-100%"
+    <translate android:fromYDelta="100%"
         android:toYDelta="0%"
         android:duration="700"
         android:fillBefore="false"/>

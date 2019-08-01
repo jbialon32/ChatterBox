@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -23,9 +24,11 @@ import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 /**
  * This class is for the Registration Activity. It provides EditText fields for the user to fill out and checks to make
- * sure none of the fields are blank before sending them to the server.
+ * sure none of the fields are blank as well as the email is valid and passwords match before sending them to the server.
  */
 
 public class    RegistrationActivity extends AppCompatActivity {
@@ -33,6 +36,7 @@ public class    RegistrationActivity extends AppCompatActivity {
     EditText username,email, firstName, lastName, password, passwordTwo;
     Button registerBtn;
     CheckBox terms;
+    ProgressBar progressBar;
 
 
 
@@ -43,24 +47,33 @@ public class    RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         //references
-        username = (EditText)findViewById(R.id.regUsername);
-        email = (EditText)findViewById(R.id.regEmail);
-        firstName = (EditText)findViewById(R.id.regFirstName);
-        lastName = (EditText)findViewById(R.id.regLastName);
-        password = (EditText)findViewById(R.id.regPassword1);
-        passwordTwo = (EditText)findViewById(R.id.regPassword2);
-        registerBtn = (Button)findViewById(R.id.register);
-        terms = (CheckBox)findViewById(R.id.termsAndConditions);
+        username = findViewById(R.id.regUsername);
+        email = findViewById(R.id.regEmail);
+        firstName = findViewById(R.id.regFirstName);
+        lastName = findViewById(R.id.regLastName);
+        password = findViewById(R.id.regPassword1);
+        passwordTwo = findViewById(R.id.regPassword2);
+        registerBtn = findViewById(R.id.register);
+        terms = findViewById(R.id.termsAndConditions);
+        progressBar = findViewById(R.id.progressBarRegister);
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                progressBar.setVisibility(View.VISIBLE);
+
+                if (!terms.isChecked()){
+                    terms.setError("");
+                    Toast.makeText(getApplicationContext(), "You must agree to Terms and Conditions!", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+
 
 
                 //data validation for all fields
-                if (!DataEmpty()){
+                if (!DataEmpty() && isValidEmail() && terms.isChecked() && passwordsMatch()){
                     //if the data is not empty, do all the following
                     Toast.makeText(RegistrationActivity.this, "You've completely filled out the form!", Toast.LENGTH_SHORT).show();
 
@@ -71,7 +84,7 @@ public class    RegistrationActivity extends AppCompatActivity {
                     String fName = firstName.getText().toString();
                     String lName = lastName.getText().toString();
                     String pass = Encrypt256.getSHA(password.getText().toString());         //Turn password into SHA-256
-                    String pass2 = Encrypt256.getSHA(passwordTwo.getText().toString());     //Turn password into SHA-256
+
 
                     //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -79,24 +92,28 @@ public class    RegistrationActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             try {
 
+                                Log.e("response", response);
 
                                 //store response in JSONObject
                                 JSONObject jsonResponse = new JSONObject(response);
 
                                 //get the value of "success. 1 if success, 0 if not"
                                 int success = jsonResponse.getInt("success");
+                                String message = jsonResponse.getString("message");
 
-
+                                Log.e("responseRegister", String.valueOf(success));
                                 //success
                                 if (success == 1){
                                     //go back to login
                                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                     RegistrationActivity.this.startActivity(intent);
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 }else{
 
                                     //display errors
                                     AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
-                                    builder.setMessage("Register failed!").setNegativeButton("Ok", null).create().show();
+                                    builder.setMessage(message).setNegativeButton("Ok", null).create().show();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 }
 
                             } catch (JSONException e) {
@@ -111,11 +128,14 @@ public class    RegistrationActivity extends AppCompatActivity {
                     RegisterRequest request = new RegisterRequest(eMail, uName, pass, fName, lName, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
                     queue.add(request);
+                    Log.e("registerRequest", "request made");
 
-                }
+                }//end if
 
-            }
-        });
+
+
+            }//end onClick
+        });//end onClickListener
 
 
 
@@ -131,6 +151,41 @@ public class    RegistrationActivity extends AppCompatActivity {
         return TextUtils.isEmpty(str);
     }
 
+    //checks email if it is valid by comparing it to a pattern
+    boolean isValidEmail (){
+
+        //this is from https://www.geeksforgeeks.org/check-email-address-valid-not-java/
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        String emailStr = email.getText().toString();
+
+        Pattern pat = Pattern.compile(emailRegex);
+
+        if (pat.matcher(emailStr).matches()){
+            return true;
+
+        }else{
+            email.setError("Invalid Email!");
+            return false;
+
+        }
+
+    }//end isValidEmail
+
+    boolean passwordsMatch(){
+        String passOne = password.getText().toString();
+        String passTwo = passwordTwo.getText().toString();
+        if (passOne.equals(passTwo)){
+            return true;
+        }else{
+            progressBar.setVisibility(View.INVISIBLE);
+            passwordTwo.setError("Passwords don't match!");
+            return false;
+        }
+    }
+
     //checks each field if data is empty if it is displays error message and returns true
     boolean DataEmpty() {
 
@@ -139,7 +194,7 @@ public class    RegistrationActivity extends AppCompatActivity {
             return true;
         }
         else if (isEmpty(email)) {
-            lastName.setError("Email is required!");
+            email.setError("Email is required!");
             return true;
         }
         else if (isEmpty(firstName)) {
@@ -155,10 +210,8 @@ public class    RegistrationActivity extends AppCompatActivity {
             password.setError("Password is required!");
             return true;
         }
-        else if (isEmpty(passwordTwo)) {
-            passwordTwo.setError("Password is required!");
-            return true;
-        }
+
+
         else {
             return false;
         }
