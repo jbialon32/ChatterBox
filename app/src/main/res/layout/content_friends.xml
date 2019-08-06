@@ -49,6 +49,7 @@
             android:divider="@color/colorBlueGray" />
 
         <!-- A few temporary messages to test the UI; remove soon-->
+        <!--<include layout="@layout/friend_list_item"/>
         <include layout="@layout/friend_list_item"/>
         <include layout="@layout/friend_list_item"/>
         <include layout="@layout/friend_list_item"/>
@@ -60,8 +61,7 @@
         <include layout="@layout/friend_list_item"/>
         <include layout="@layout/friend_list_item"/>
         <include layout="@layout/friend_list_item"/>
-        <include layout="@layout/friend_list_item"/>
-        <include layout="@layout/friend_list_item"/>
+        <include layout="@layout/friend_list_item"/>-->
         <include layout="@layout/friend_list_item"/>
 
 

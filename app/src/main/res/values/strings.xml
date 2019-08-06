@@ -43,7 +43,9 @@
     <!-- Strings related to chatrooms list -->
     <string name="chatroom_name_hint">chatroom name</string>
     <string name="chatroom_passport_hint">chatroom passport</string>
-    <string name="new_chatroom_description">Create a new Chatroom:</string>
+    <string name="new_chatroom_description">Create/Join a new Chatroom:</string>
+    <string name="chatroom_join">Join</string>
+    <string name="chatroom_create">Create</string>
     <string name="large_text">
         "Help\n\n"
 
