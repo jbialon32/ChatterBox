@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
 import net.androidbootcamp.chatterbox.Adapters.RecyclerViewAdapter;
+import net.androidbootcamp.chatterbox.Requests.ActiveChatRequest;
 import net.androidbootcamp.chatterbox.Requests.SendMessageRequest;
 import net.androidbootcamp.chatterbox.messages.MessageGetRequest;
 import net.androidbootcamp.chatterbox.messages.MessageObject;
@@ -66,9 +67,11 @@ public class MenuActivity extends AppCompatActivity
     //repeats a runnable that gets new messages
     private Handler mHandler = new Handler();
 
+    private int activeChat;
     private int chatID;
     private int lastItemInList;
 
+    private Response.Listener<String> activeChatListener;
     private Response.Listener<String> responseListener;
     private Response.Listener<String> sendListener;
     private Response.Listener<String> refreshListener;
@@ -105,7 +108,7 @@ public class MenuActivity extends AppCompatActivity
 
 
         //references
-        messageListView = (RecyclerView) findViewById(R.id.chatroom_list);
+        messageListView = (RecyclerView) findViewById(R.id.messages_view);
         messageListView.setHasFixedSize(true);
         messageListView.setLayoutManager(new LinearLayoutManager(this));
         newMessage = (EditText)findViewById(R.id.typingBox);
@@ -119,7 +122,48 @@ public class MenuActivity extends AppCompatActivity
         loggedInUser = intent.getStringExtra("userID");
 
 
+        //gets the users active chat
+        activeChatListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    int success = jsonResponse.getInt("success");
+                    Log.e("Response: ", response);
 
+                    // if server says it succeded do this
+                    if (success == 1) {
+                        activeChat = jsonResponse.getInt("activechat");
+
+                        if (initialMessageRequest) {
+                            //requests the initial messages
+                            MessageGetRequest messageGetRequest = new MessageGetRequest(activeChat, responseListener);
+                            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+
+                            queue.add(messageGetRequest);
+                            initialMessageRequest = false;
+
+                        }
+
+                    } else {
+
+
+                        //displays error message from server in not success
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                        builder.setMessage(jsonResponse.getString("message"))
+                                .setNegativeButton("OK", null)
+                                .create()
+                                .show();
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(MenuActivity.this, "Error fetching active chat id!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
 
 
@@ -357,18 +401,11 @@ public class MenuActivity extends AppCompatActivity
         //start delayed Runnable to get messages every 5 seconds
         getMessageRunnable.run();
 
-        if (initialMessageRequest) {
-            //requests the initial messages
-            MessageGetRequest messageGetRequest = new MessageGetRequest(1, responseListener);
-            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+        //requests the initial messages
+        ActiveChatRequest activeChatRequest = new ActiveChatRequest(loggedInUser, activeChatListener);
+        RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
 
-            queue.add(messageGetRequest);
-            initialMessageRequest = false;
-
-        }
-
-
-
+        queue.add(activeChatRequest);
 
         //listener for sent button
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
@@ -424,8 +461,8 @@ public class MenuActivity extends AppCompatActivity
         public void run() {
 
             //this calls a different constructor for MessageGetRequest which is supposed to return only new messages
-            if (!initialMessageRequest) {
-                MessageGetRequest refreshRequest = new MessageGetRequest(1, timeStampIndex, refreshListener);
+            if (initialMessageRequest == false) {
+                MessageGetRequest refreshRequest = new MessageGetRequest(activeChat, timeStampIndex, refreshListener);
                 RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
 
                 queue.add(refreshRequest);
