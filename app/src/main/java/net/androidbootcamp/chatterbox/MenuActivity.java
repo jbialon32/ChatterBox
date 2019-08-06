@@ -105,7 +105,7 @@ public class MenuActivity extends AppCompatActivity
 
 
         //references
-        messageListView = (RecyclerView) findViewById(R.id.messages_view);
+        messageListView = (RecyclerView) findViewById(R.id.chatroom_list);
         messageListView.setHasFixedSize(true);
         messageListView.setLayoutManager(new LinearLayoutManager(this));
         newMessage = (EditText)findViewById(R.id.typingBox);
@@ -424,7 +424,7 @@ public class MenuActivity extends AppCompatActivity
         public void run() {
 
             //this calls a different constructor for MessageGetRequest which is supposed to return only new messages
-            if (initialMessageRequest == false) {
+            if (!initialMessageRequest) {
                 MessageGetRequest refreshRequest = new MessageGetRequest(1, timeStampIndex, refreshListener);
                 RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
 

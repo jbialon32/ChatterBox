@@ -1,86 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".chatroomActivity"
-    tools:showIn="@layout/app_bar_chatrooms">
 
-    <LinearLayout
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:focusableInTouchMode="true">
+
+
+    <ListView
+        android:id="@+id/chatroom_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clipToPadding="false"
-        android:focusableInTouchMode="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <TextView
-            android:id="@+id/chatroomDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="@string/new_chatroom_description"
-            android:textColor="@color/colorBlack"
-            android:textSize="26sp" />
-
-        <EditText
-            android:id="@+id/enterChatroomName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-
-            android:hint="@string/chatroom_name_hint"
-            android:ems="10"
-            android:textSize="26sp"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/colorBlueGray"
-            android:textColorHint="@color/colorlightGray"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/enterChatroomPassport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-
-            android:hint="@string/chatroom_passport_hint"
-            android:ems="10"
-            android:textSize="26sp"
-            android:selectAllOnFocus="true"
-            android:textColor="@color/colorBlueGray"
-            android:textColorHint="@color/colorlightGray"
-            android:inputType="textPersonName" />
-
-        <ListView
-            android:id="@+id/messages_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:background="@color/colorWhite"
-            android:divider="@color/colorBlueGray" />
-
-        <!-- A few temporary messages to test the UI; remove soon-->
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>
+        android:layout_weight="2"
+        android:background="@color/colorWhite"
+        android:divider="@color/colorBlueGray" />
 
 
 
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+

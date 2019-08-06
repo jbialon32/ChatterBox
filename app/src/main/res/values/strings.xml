@@ -122,5 +122,6 @@ Community College.\n\n"
     <string name="new_friends_description">Add a friend by username or email</string>
     <string name="help_link">Help | Privacy | Terms and Conditions</string>
     <string name="title_activity_help">Help | Privacy | Terms and Conditions</string>
+    <string name="chat_rooms">Chatrooms:</string>
 
 </resources>

@@ -11,9 +11,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ListView;
+
+import com.android.volley.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class chatroomActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ListView chatroomList;
+
+    private Response.Listener<String> responseListener;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +42,39 @@ public class chatroomActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        chatroomList = findViewById(R.id.chatroom_list);
+
+
+        responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    int success = jsonObject.getInt("success");
+
+                    if (success == 1){
+                        JSONArray chatroomResponse = jsonObject.getJSONArray("data");
+
+                        if (!chatroomResponse.isNull(0)){
+
+                            for (int index = 0; index < chatroomResponse.length(); index++){
+
+                            }
+                        }
+                    }else{
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
     }
 
     @Override

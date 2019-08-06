@@ -41,7 +41,7 @@
             android:inputType="textPersonName" />
 
         <ListView
-            android:id="@+id/messages_view"
+            android:id="@+id/chatroom_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
