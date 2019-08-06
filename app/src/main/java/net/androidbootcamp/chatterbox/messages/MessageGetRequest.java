@@ -9,8 +9,9 @@ import java.util.Map;
 
 public class MessageGetRequest extends StringRequest {
     //private static final String LOGIN_REQUEST_URL = "http://192.168.0.37/api/MessageGet.php";
-    private static final String LOGIN_REQUEST_URL = "http://teamblues.x10host.com/MessageGet.php";
-    private static final String MESSAGE_REFRESH_REQUEST_URL = "http://teamblues.x10host.com/MessageRefresh.php";
+    private static final String LOGIN_REQUEST_URL = "http://192.168.1.90/api/MessageGet.php";
+    //private static final String MESSAGE_REFRESH_REQUEST_URL = "http://teamblues.x10host.com/MessageRefresh.php";
+    private static final String MESSAGE_REFRESH_REQUEST_URL = "http://192.168.1.90/api/MessageRefresh.php";
     private Map<String, String> params;
 
     public MessageGetRequest(int chatID, Response.Listener<String> listener) {

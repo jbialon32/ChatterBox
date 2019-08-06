@@ -101,6 +101,3 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }//end ViewHolder class
 }//end RecyclerViewAdapter class
-
-
-
