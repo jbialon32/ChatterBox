@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox.messages;
+package net.androidbootcamp.chatterbox.objects;
 
 /**
  * This class is for a message data model.

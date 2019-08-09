@@ -1,11 +1,10 @@
-package net.androidbootcamp.chatterbox;
+package net.androidbootcamp.chatterbox.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,8 +15,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import net.androidbootcamp.chatterbox.Requests.RegisterRequest;
-import net.androidbootcamp.chatterbox.ui.login.LoginActivity;
+import net.androidbootcamp.chatterbox.R;
+import net.androidbootcamp.chatterbox.requests.RegisterRequest;
 import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox.ui.login;
+package net.androidbootcamp.chatterbox.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +16,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import net.androidbootcamp.chatterbox.HelpActivity;
-import net.androidbootcamp.chatterbox.MenuActivity;
 import net.androidbootcamp.chatterbox.R;
-import net.androidbootcamp.chatterbox.RegistrationActivity;
-import net.androidbootcamp.chatterbox.Requests.LoginRequest;
+import net.androidbootcamp.chatterbox.requests.LoginRequest;
 import net.androidbootcamp.chatterbox.encryption.Encrypt256;
 
 import org.json.JSONException;

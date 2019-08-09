@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".chatroomActivity"
+    tools:context=".activities.ChatRoomActivity"
     tools:showIn="@layout/app_bar_chatrooms">
 
     <LinearLayout
@@ -55,27 +55,26 @@
             android:textSize="26sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/joinChatButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/chatroom_join" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/createChatButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/chatroom_create" />
 
-        <ListView
-            android:id="@+id/messages_view"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chats_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:background="@color/colorWhite"
             android:divider="@color/colorBlueGray" />
 
-        <!-- A few temporary messages to test the UI; remove soon-->
-        <!--<include layout="@layout/chatroom_list_item"/>
+        <!-- A few temporary messages to test the UI; remove soon
         <include layout="@layout/chatroom_list_item"/>
         <include layout="@layout/chatroom_list_item"/>
         <include layout="@layout/chatroom_list_item"/>
@@ -89,8 +88,9 @@
         <include layout="@layout/chatroom_list_item"/>
         <include layout="@layout/chatroom_list_item"/>
         <include layout="@layout/chatroom_list_item"/>
-        <include layout="@layout/chatroom_list_item"/>-->
-        <include layout="@layout/chatroom_list_item" />
+        <include layout="@layout/chatroom_list_item"/>
+        <include layout="@layout/chatroom_list_item"/>
+        <include layout="@layout/chatroom_list_item" />-->
 
 
 

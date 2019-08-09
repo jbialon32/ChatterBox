@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox.Requests;
+package net.androidbootcamp.chatterbox.requests;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -6,20 +6,20 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.androidbootcamp.chatterbox.urlStuff.BuildApiLink.getApiLink;
+
 /**
  * This class is for building a request to sent to the server for sending a new message.
  */
 
 //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
 public class SendMessageRequest extends StringRequest {
-    private static final String REGISTER_REQUEST_URL = "http://192.168.1.90/api/MessageCreate.php";
-    //private static final String REGISTER_REQUEST_URL = "http://192.168.0.37/api/CreateUser.php";
-    //private static final String REGISTER_REQUEST_URL = "http://teamblues.x10host.com/MessageCreate.php";
+    private static final String MESSAGE_REQUEST_URL = getApiLink("api/MessageCreate.php");
     private Map<String, String> params;
 
     //constructor
     public SendMessageRequest(Integer chatID, String userID, String message, Response.Listener<String> listener){
-        super(Method.POST, REGISTER_REQUEST_URL, listener, null);
+        super(Method.POST, MESSAGE_REQUEST_URL, listener, null);
 
         params = new HashMap<>();
 

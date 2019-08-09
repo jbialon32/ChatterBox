@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox;
+package net.androidbootcamp.chatterbox.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+
+import net.androidbootcamp.chatterbox.R;
 
 public class FriendsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,7 +73,7 @@ public class FriendsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_chatrooms) {
-            startActivity(new Intent(FriendsActivity.this, chatroomActivity.class));
+            startActivity(new Intent(FriendsActivity.this, ChatRoomActivity.class));
         } else if (id == R.id.nav_friends) {
             //startActivity(new Intent(MenuActivity.this, FriendsActivity.class));
         } /*else if (id == R.id.nav_filler) {

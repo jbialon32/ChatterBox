@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox.Requests;
+package net.androidbootcamp.chatterbox.requests;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -6,15 +6,15 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.androidbootcamp.chatterbox.urlStuff.BuildApiLink.getApiLink;
+
 /**
  * This class if for building a request to send to the server for registration.
  */
 
 //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
 public class RegisterRequest extends StringRequest {
-    private static final String REGISTER_REQUEST_URL = "http://192.168.1.90/api/CreateUser.php";
-    //private static final String REGISTER_REQUEST_URL = "http://192.168.0.37/api/CreateUser.php";
-    //private static final String REGISTER_REQUEST_URL = "http://teamblues.x10host.com/CreateUser.php";
+    private static final String REGISTER_REQUEST_URL = getApiLink("api/CreateUser.php");
     private Map<String, String> params;
 
     public RegisterRequest(String email,
