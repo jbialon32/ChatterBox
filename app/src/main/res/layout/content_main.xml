@@ -9,7 +9,7 @@
     android:clipToPadding="false"
     android:focusableInTouchMode="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MenuActivity"
+    tools:context=".activities.MenuActivity"
     tools:showIn="@layout/app_bar_main">
 
     <FrameLayout

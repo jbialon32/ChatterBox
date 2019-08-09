@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox.chatrooms;
+package net.androidbootcamp.chatterbox.objects;
 
 import java.util.ArrayList;
 

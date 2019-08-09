@@ -1,4 +1,4 @@
-package net.androidbootcamp.chatterbox;
+package net.androidbootcamp.chatterbox.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,11 +26,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import net.androidbootcamp.chatterbox.Adapters.RecyclerViewAdapter;
-import net.androidbootcamp.chatterbox.Requests.ActiveChatRequest;
-import net.androidbootcamp.chatterbox.Requests.SendMessageRequest;
-import net.androidbootcamp.chatterbox.messages.MessageGetRequest;
-import net.androidbootcamp.chatterbox.messages.MessageObject;
+import net.androidbootcamp.chatterbox.R;
+import net.androidbootcamp.chatterbox.adapters.MessageAdapter;
+import net.androidbootcamp.chatterbox.requests.ActiveChatRequest;
+import net.androidbootcamp.chatterbox.requests.SendMessageRequest;
+import net.androidbootcamp.chatterbox.requests.MessageGetRequest;
+import net.androidbootcamp.chatterbox.objects.MessageObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class MenuActivity extends AppCompatActivity
     private String loggedInUser;
 
     //adapter
-    private RecyclerView.Adapter recyclerAdapter;
+    private MessageAdapter messageAdapter;
 
     //this will hold message objects
     private ArrayList<MessageObject> messageList = new ArrayList<>();
@@ -250,13 +251,13 @@ public class MenuActivity extends AppCompatActivity
 
 
                             //lets adapter know the data is updated from a certain index in array
-                            recyclerAdapter.notifyItemRangeChanged(lastItemInList, messageList.size()-1);
+                            messageAdapter.notifyItemRangeChanged(lastItemInList, messageList.size()-1);
 
                             //notify adapter data has changed
-                            recyclerAdapter.notifyDataSetChanged();
+                            messageAdapter.notifyDataSetChanged();
 
                             //automatically scrolls to last item in recyclerview
-                            messageListView.scrollToPosition(recyclerAdapter.getItemCount()-1);
+                            messageListView.scrollToPosition(messageAdapter.getItemCount()-1);
 
                             //stores new last item index from array
                             lastItemInList = messageList.size()-1;
@@ -295,7 +296,7 @@ public class MenuActivity extends AppCompatActivity
 
 
 
-        // listens for server response then fills the listview
+        // listens for server response then fills the recyclerview
         responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -343,15 +344,15 @@ public class MenuActivity extends AppCompatActivity
                             }//end for loop
 
                             //creates new adapter for recyclerview
-                            recyclerAdapter = new RecyclerViewAdapter(messageList, getApplicationContext());
+                            messageAdapter = new MessageAdapter(getApplicationContext(), messageList);
 
 
 
                             //sets adapter to recyclerview
-                            messageListView.setAdapter(recyclerAdapter);
+                            messageListView.setAdapter(messageAdapter);
 
                             //scrolls to last item in list in adapter
-                            messageListView.scrollToPosition(recyclerAdapter.getItemCount()-1);
+                            messageListView.scrollToPosition(messageAdapter.getItemCount()-1);
 
 
 
@@ -517,9 +518,14 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_chatrooms) {
-            startActivity(new Intent(MenuActivity.this, chatroomActivity.class));
+            Intent chatRoomIntent = new Intent(MenuActivity.this, ChatRoomActivity.class);
+            chatRoomIntent.putExtra("userID", loggedInUser);
+            chatRoomIntent.putExtra("active_chat", activeChat);
+            startActivity(chatRoomIntent);
         } else if (id == R.id.nav_friends) {
-            startActivity(new Intent(MenuActivity.this, FriendsActivity.class));
+            Intent friendsIntent = new Intent(MenuActivity.this, FriendsActivity.class);
+            friendsIntent.putExtra("userID", loggedInUser);
+            startActivity(friendsIntent);
         }
 
        /* if (id == R.id.nav_home) {

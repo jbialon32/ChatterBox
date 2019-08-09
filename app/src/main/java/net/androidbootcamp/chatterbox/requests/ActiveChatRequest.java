@@ -1,15 +1,16 @@
-package net.androidbootcamp.chatterbox.Requests;
+package net.androidbootcamp.chatterbox.requests;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.androidbootcamp.chatterbox.urlStuff.BuildApiLink.getApiLink;
+
 public class ActiveChatRequest extends StringRequest {
 
-    private static final String GetActiveChat_REQUEST_URL = "http://192.168.1.90/api/GetActiveChat.php";
+    private static final String GetActiveChat_REQUEST_URL = getApiLink("api/GetActiveChat.php");
     private Map<String, String> params;
 
     public ActiveChatRequest(String user_id, Response.Listener<String> listener) {
