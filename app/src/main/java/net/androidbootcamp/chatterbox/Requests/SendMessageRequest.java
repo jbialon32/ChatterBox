@@ -12,9 +12,9 @@ import java.util.Map;
 
 //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
 public class SendMessageRequest extends StringRequest {
-    private static final String REGISTER_REQUEST_URL = "http://192.168.1.90/api/MessageCreate.php";
+    //private static final String REGISTER_REQUEST_URL = "http://192.168.1.90/api/MessageCreate.php";
     //private static final String REGISTER_REQUEST_URL = "http://192.168.0.37/api/CreateUser.php";
-    //private static final String REGISTER_REQUEST_URL = "http://teamblues.x10host.com/MessageCreate.php";
+    private static final String REGISTER_REQUEST_URL = "http://teamblues.x10host.com/MessageCreate.php";
     private Map<String, String> params;
 
     //constructor

@@ -17,12 +17,12 @@ import java.util.Map;
 
 //REFERENCE: https://www.youtube.com/playlist?list=PLe60o7ed8E-TztoF2K3y4VdDgT6APZ0ka
 public class LoginRequest extends StringRequest {
-    private static final String LOGIN_REQUEST_URL = "http://192.168.1.90/api/passAuth.php";
+    //private static final String LOGIN_REQUEST_URL = "http://192.168.1.90/api/passAuth.php";
     //private static final String LOGIN_REQUEST_URL = "http://192.168.0.37/api/passAuth.php";
 
 
     //URL of webhost
-    //private static final String LOGIN_REQUEST_URL = "http://teamblues.x10host.com/passAuth.php";
+    private static final String LOGIN_REQUEST_URL = "http://teamblues.x10host.com/passAuth.php";
     private Map<String, String> params;
 
     //this constructor adds the user provided username and password to a hashmap for sending to server and sets a response listener

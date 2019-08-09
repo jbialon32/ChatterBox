@@ -9,7 +9,9 @@ import java.util.Map;
 
 public class ActiveChatRequest extends StringRequest {
 
-    private static final String GetActiveChat_REQUEST_URL = "http://192.168.1.90/api/GetActiveChat.php";
+    private static final String GetActiveChat_REQUEST_URL = "http://teamblues.x10host.com/GetActiveChat.php";
+
+    //private static final String GetActiveChat_REQUEST_URL = "http://192.168.1.90/api/GetActiveChat.php";
     private Map<String, String> params;
 
     public ActiveChatRequest(String user_id, Response.Listener<String> listener) {

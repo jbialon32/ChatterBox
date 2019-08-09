@@ -71,7 +71,6 @@ public class MenuActivity extends AppCompatActivity
     private int chatID;
     private int lastItemInList;
 
-    private Response.Listener<String> activeChatListener;
     private Response.Listener<String> responseListener;
     private Response.Listener<String> sendListener;
     private Response.Listener<String> refreshListener;
@@ -108,7 +107,7 @@ public class MenuActivity extends AppCompatActivity
 
 
         //references
-        messageListView = (RecyclerView) findViewById(R.id.messages_view);
+        messageListView = (RecyclerView) findViewById(R.id.message_list);
         messageListView.setHasFixedSize(true);
         messageListView.setLayoutManager(new LinearLayoutManager(this));
         newMessage = (EditText)findViewById(R.id.typingBox);
@@ -122,48 +121,7 @@ public class MenuActivity extends AppCompatActivity
         loggedInUser = intent.getStringExtra("userID");
 
 
-        //gets the users active chat
-        activeChatListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonResponse = new JSONObject(response);
-                    int success = jsonResponse.getInt("success");
-                    Log.e("Response: ", response);
 
-                    // if server says it succeded do this
-                    if (success == 1) {
-                        activeChat = jsonResponse.getInt("activechat");
-
-                        if (initialMessageRequest) {
-                            //requests the initial messages
-                            MessageGetRequest messageGetRequest = new MessageGetRequest(activeChat, responseListener);
-                            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
-
-                            queue.add(messageGetRequest);
-                            initialMessageRequest = false;
-
-                        }
-
-                    } else {
-
-
-                        //displays error message from server in not success
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
-                        builder.setMessage(jsonResponse.getString("message"))
-                                .setNegativeButton("OK", null)
-                                .create()
-                                .show();
-
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(MenuActivity.this, "Error fetching active chat id!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
 
 
 
@@ -401,11 +359,18 @@ public class MenuActivity extends AppCompatActivity
         //start delayed Runnable to get messages every 5 seconds
         getMessageRunnable.run();
 
-        //requests the initial messages
-        ActiveChatRequest activeChatRequest = new ActiveChatRequest(loggedInUser, activeChatListener);
-        RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+        if (initialMessageRequest) {
+            //requests the initial messages
+            MessageGetRequest messageGetRequest = new MessageGetRequest(1, responseListener);
+            RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
 
-        queue.add(activeChatRequest);
+            queue.add(messageGetRequest);
+            initialMessageRequest = false;
+
+        }
+
+
+
 
         //listener for sent button
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
@@ -415,21 +380,23 @@ public class MenuActivity extends AppCompatActivity
                 String newUserMessage = newMessage.getText().toString();
                 Log.e("Sending text contents", newUserMessage);
 
-                //if not blank do this
-                if (!newUserMessage.equals("")){
+                //if not blank and less than 255 chars
+                if (!newUserMessage.equals("") && isCorrectCharCount(newUserMessage)) {
 
                     //makes a send request to the server
-                    SendMessageRequest sendMessageRequest = new SendMessageRequest(1, loggedInUser, newUserMessage,sendListener);
+                    SendMessageRequest sendMessageRequest = new SendMessageRequest(1, loggedInUser, newUserMessage, sendListener);
                     RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
                     queue.add(sendMessageRequest);
 
                     //resets the new message input field to blank
                     newMessage.setText("");
 
-                    //makes the keyboard go away
+                    //makes the keyboard go away. Go on now! Git!
                     closeKeyboard();
 
-
+                }else if (!newUserMessage.equals("") && !isCorrectCharCount(newUserMessage)){
+                    //text input is not blank but is more than 254 chars
+                    Toast.makeText(MenuActivity.this, "Message must be less than 255 characters!", Toast.LENGTH_SHORT).show();
                 }else{
 
                     Toast.makeText(MenuActivity.this, "Type In Text!", Toast.LENGTH_LONG).show();
@@ -438,6 +405,25 @@ public class MenuActivity extends AppCompatActivity
         });
 
     }//end onCreate
+
+    private boolean isCorrectCharCount(String str){
+        int charCount = 0;
+        final int  MAX_CHARS = 255;
+
+        for (int i = 0; i < str.length(); i++){
+            if(str.charAt(i) != ' '){
+                charCount++;
+            }
+
+        }
+
+        if (charCount < MAX_CHARS){
+            return true;
+        }
+
+        return false;
+
+    }
 
 
     //Got this from https://codinginflow.com/tutorials/android/hide-soft-keyboard-programmatically

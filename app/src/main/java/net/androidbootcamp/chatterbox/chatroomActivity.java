@@ -1,5 +1,6 @@
 package net.androidbootcamp.chatterbox;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -11,7 +12,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.android.volley.Response;
 
@@ -23,6 +27,7 @@ public class chatroomActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView chatroomList;
+    private ArrayAdapter adapter;
 
     private Response.Listener<String> responseListener;
 
@@ -61,11 +66,18 @@ public class chatroomActivity extends AppCompatActivity
                         if (!chatroomResponse.isNull(0)){
 
                             for (int index = 0; index < chatroomResponse.length(); index++){
+                                JSONObject arrayItem = chatroomResponse.getJSONObject(index);
 
+                                //todo
                             }
                         }
                     }else{
-
+                        //displays error message from server in not success
+                        AlertDialog.Builder builder = new AlertDialog.Builder(chatroomActivity.this);
+                        builder.setMessage(jsonObject.getString("message"))
+                                .setNegativeButton("OK", null)
+                                .create()
+                                .show();
                     }
 
                 } catch (JSONException e) {
