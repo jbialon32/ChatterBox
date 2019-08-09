@@ -7,8 +7,8 @@
   $messageArray = array();
   $response = array();
   //Check for mandatory parameter chat_id
-  if(isset($_GET["user_id"])){
-    $userID = $_GET["user_id"];
+  if(isset($_POST["user_id"])){
+    $userID = $_POST["user_id"];
     //Query to fetch message details
     $query = "SELECT room_members.chat_id, chat_rooms.chat_name, chat_rooms.password FROM room_members, chat_rooms WHERE room_members.user_id=? && chat_rooms.id=room_members.chat_id";
     if($stmt = $db->prepare($query)){
