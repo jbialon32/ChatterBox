@@ -11,23 +11,23 @@ Campus based chat system
 
 # Change Log
 
-  +Version 1.0.1
+  Version 1.0.1
 
-   +UI/XML
-     + New placeholder chat room info stuff
-     + Added recycler view instead of list too chatroom stuff
+   UI/XML
+     - New placeholder chat room info stuff
+     - Added recycler view instead of list too chatroom stuff
 
-   +Java \n
-     + Reorganized File Structure \n
-     + Now listens for active chat in MenuActivity onCreate \n
-     + Uses the active chat variable to get and send messages
-     + Changed recycler adapter so multiple classes can be made
+   Java
+     - Reorganized File Structure
+     - Now listens for active chat in MenuActivity onCreate
+     - Uses the active chat variable to get and send messages
+     - Changed recycler adapter so multiple classes can be made
        w/ more ease
-     + Added Chat room list recycler adapter
+     - Added Chat room list recycler adapter
 
-   +PHP
-     + Tweaked GetChatID
-     + Created GetActiveChat
+   PHP
+     - Tweaked GetChatID
+     - Created GetActiveChat
      
-   +SQL
-     + Created active_chat table
+   SQL
+     - Created active_chat table
