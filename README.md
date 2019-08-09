@@ -11,7 +11,7 @@ Campus based chat system
 
 # Change Log
 
-  +Ver. 1.0.1
+  +Version 1.0.1
 
    +UI/XML
      + New placeholder chat room info stuff
@@ -29,5 +29,5 @@ Campus based chat system
      + Tweaked GetChatID
      + Created GetActiveChat
      
-   +SQL+
+   +SQL
      + Created active_chat table
