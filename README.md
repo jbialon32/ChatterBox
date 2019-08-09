@@ -17,9 +17,9 @@ Campus based chat system
      + New placeholder chat room info stuff
      + Added recycler view instead of list too chatroom stuff
 
-   +Java
-     + Reorganized File Structure
-     + Now listens for active chat in MenuActivity onCreate
+   +Java \n
+     + Reorganized File Structure \n
+     + Now listens for active chat in MenuActivity onCreate \n
      + Uses the active chat variable to get and send messages
      + Changed recycler adapter so multiple classes can be made
        w/ more ease
