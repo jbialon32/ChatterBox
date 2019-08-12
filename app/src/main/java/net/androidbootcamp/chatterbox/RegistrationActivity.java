@@ -75,7 +75,7 @@ public class    RegistrationActivity extends AppCompatActivity {
                 //data validation for all fields
                 if (!DataEmpty() && isValidEmail() && terms.isChecked() && passwordsMatch()){
                     //if the data is not empty, do all the following
-                    Toast.makeText(RegistrationActivity.this, "You've completely filled out the form!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Form complete!", Toast.LENGTH_SHORT).show();
 
 
 
