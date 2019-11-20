@@ -12,7 +12,7 @@ Campus based chat system
 
   Version 1.0.2
   
-    UI/XML
+   UI/XML
   - Turned chat room recyclerview to set of buttons
   -chat room menu create button has functionality
 
