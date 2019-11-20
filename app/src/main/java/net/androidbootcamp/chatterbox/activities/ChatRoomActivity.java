@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -24,9 +25,9 @@ import com.android.volley.toolbox.Volley;
 
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.adapters.ChatroomAdapter;
-import net.androidbootcamp.chatterbox.adapters.MessageAdapter;
 import net.androidbootcamp.chatterbox.objects.ChatroomObject;
-import net.androidbootcamp.chatterbox.objects.MessageObject;
+import net.androidbootcamp.chatterbox.requests.ChangeChatRequest;
+import net.androidbootcamp.chatterbox.requests.CreateChatRequest;
 import net.androidbootcamp.chatterbox.requests.GetChatIDRequest;
 
 import org.json.JSONArray;
@@ -56,6 +57,9 @@ public class ChatRoomActivity extends AppCompatActivity
     private RecyclerView chatListView;
 
     private Response.Listener<String> chatListener;
+    private Response.Listener<String> clickListener;
+    private Response.Listener<String> newChatListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,58 @@ public class ChatRoomActivity extends AppCompatActivity
         Intent getUserIntent = getIntent();
         loggedInUser = getUserIntent.getStringExtra("userID");
         currentActiveChat = getUserIntent.getIntExtra("active_chat", 0);
+
+        // Adds functionality to createChatBtn
+        createChatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!newChat.getText().toString().isEmpty()){
+                    CreateChatRequest chatChangeRequest = new CreateChatRequest(loggedInUser, newChat.getText().toString(), newChatListener);
+                    RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                    queue.add(chatChangeRequest);
+                } else {
+                    System.out.println("Enter a server name!");
+                }
+
+            }
+        });
+
+        // listens for new chat response and acts accordingly
+        newChatListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    int success = jsonResponse.getInt("success");
+
+                    if(success == 1) {
+                        int newChatID = jsonResponse.getInt("data");
+                        currentActiveChat = newChatID;
+                        ChangeChatRequest chatChangeRequest = new ChangeChatRequest(Integer.parseInt(loggedInUser), currentActiveChat, newChatListener);
+                        RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                        queue.add(chatChangeRequest);
+
+                        Intent intent = new Intent(ChatRoomActivity.this, MenuActivity.class);
+
+                        //this will pass the userID sent from server to the MenuActivity
+                        intent.putExtra("userID", loggedInUser); // passes the username received from userID to the MenuActivity
+
+                        //start the MenuActivity
+                        ChatRoomActivity.this.startActivity(intent);
+                    } else {
+                        Log.e("Response", jsonResponse.getString("message"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
 
         // listens for server response then fills the recyclerview
         chatListener = new Response.Listener<String>() {
@@ -120,6 +176,29 @@ public class ChatRoomActivity extends AppCompatActivity
 
                             //creates new adapter for recyclerview
                             chatAdapter = new ChatroomAdapter(getApplicationContext(), chatRoomList);
+
+                            chatAdapter.setOnItemClickListener(new ChatroomAdapter.ClickListener() {
+                                @Override
+                                public void onItemClick(int position, View v) {
+                                    ChangeChatRequest chatChangeRequest = new ChangeChatRequest(Integer.parseInt(loggedInUser), position, chatListener);
+                                    RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                                    queue.add(chatChangeRequest);
+
+                                    Intent intent = new Intent(ChatRoomActivity.this, MenuActivity.class);
+
+                                    //this will pass the userID sent from server to the MenuActivity
+                                    intent.putExtra("userID", loggedInUser); // passes the username received from userID to the MenuActivity
+
+                                    //start the MenuActivity
+                                    ChatRoomActivity.this.startActivity(intent);
+                                }
+
+                                @Override
+                                public void onItemLongClick(int position, View v) {
+                                    Log.d("LONGCLICK", "onItemLongClick position: " + position);
+                                }
+                            });
 
                             //sets adapter to recyclerview
                             chatListView.setAdapter(chatAdapter);

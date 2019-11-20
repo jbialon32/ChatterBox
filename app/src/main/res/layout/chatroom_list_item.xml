@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chat_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,6 +17,14 @@
         android:background="@color/colorBlueGray"
         android:padding="4dp" />
 
+    <Button
+        android:id="@+id/chooseChat"
+        android:layout_width="823dp"
+        android:layout_height="75dp"
+        android:layout_alignRight="@id/chat_name"
+        android:layout_marginRight="-425dp"
+        android:alpha="0" />
+
     <TextView
         android:id="@+id/chat_name"
         android:layout_width="389dp"
@@ -25,9 +34,11 @@
         android:textColor="@color/colorBlack"
         android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="73dp"
-        android:layout_height="69dp"
-        android:layout_alignRight="@id/chat_name" />
+    <TextView
+        android:id="@+id/server_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:text="Change me" />
+
 </RelativeLayout>
