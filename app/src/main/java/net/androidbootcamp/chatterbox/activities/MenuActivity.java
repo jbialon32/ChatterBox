@@ -44,11 +44,8 @@ import java.util.ArrayList;
  * and lets the user enter and send new messages.
  */
 
-
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
 
     //holds userID from LoginActivity
     private String loggedInUser;
@@ -58,7 +55,6 @@ public class MenuActivity extends AppCompatActivity
 
     //this will hold message objects
     private ArrayList<MessageObject> messageList = new ArrayList<>();
-
 
     //references
     private EditText newMessage;
@@ -77,17 +73,11 @@ public class MenuActivity extends AppCompatActivity
     private Response.Listener<String> sendListener;
     private Response.Listener<String> refreshListener;
 
-
-
-
     //boolean to check if is the initalrequest to run different code if not
     private boolean initialMessageRequest;
 
     //stores message timestamp to use when getting new messages
     private String timeStampIndex = "";
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +93,7 @@ public class MenuActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
         initialMessageRequest = true;
-
-
 
         //references
         messageListView = (RecyclerView) findViewById(R.id.messages_view);
@@ -115,13 +102,9 @@ public class MenuActivity extends AppCompatActivity
         newMessage = (EditText)findViewById(R.id.typingBox);
         sendMessageBtn = (ImageButton)findViewById(R.id.typingSendButton);
 
-
-
-
         //gets the userID we passed from LoginActivity
         Intent intent = getIntent();
         loggedInUser = intent.getStringExtra("userID");
-
 
         //gets the users active chat
         activeChatListener = new Response.Listener<String>() {
@@ -148,16 +131,13 @@ public class MenuActivity extends AppCompatActivity
 
                     } else {
 
-
                         //displays error message from server in not success
                         AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
                         builder.setMessage(jsonResponse.getString("message"))
                                 .setNegativeButton("OK", null)
                                 .create()
                                 .show();
-
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -165,8 +145,6 @@ public class MenuActivity extends AppCompatActivity
                 }
             }
         };
-
-
 
         //listens for response from sending a message
         sendListener = new Response.Listener<String>() {
@@ -199,14 +177,12 @@ public class MenuActivity extends AppCompatActivity
             }
         };
 
-
         //this is for listening for response from the server for new messages
         refreshListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
-
 
                     JSONObject jsonResponse = new JSONObject(response);
                     int success = jsonResponse.getInt("success");
@@ -238,17 +214,10 @@ public class MenuActivity extends AppCompatActivity
                                 //this will keep the timestamp of the last item in the map
                                 timeStampIndex = timestamp;
 
-
-
                                 //adds the MessageObject to an arraylist
                                 messageList.add(msgObject);
 
-
-
-
-
                             }//end for loop
-
 
                             //lets adapter know the data is updated from a certain index in array
                             messageAdapter.notifyItemRangeChanged(lastItemInList, messageList.size()-1);
@@ -262,14 +231,7 @@ public class MenuActivity extends AppCompatActivity
                             //stores new last item index from array
                             lastItemInList = messageList.size()-1;
 
-
                         }//end if messageList not null
-
-
-
-
-
-
 
                     }else if (success == 0){
                         android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
@@ -281,20 +243,12 @@ public class MenuActivity extends AppCompatActivity
                         Log.e("Response", jsonResponse.getString("message"));
                     }
 
-
-
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
         };
-
-
 
         // listens for server response then fills the recyclerview
         responseListener = new Response.Listener<String>() {
@@ -354,18 +308,15 @@ public class MenuActivity extends AppCompatActivity
                             //scrolls to last item in list in adapter
                             messageListView.scrollToPosition(messageAdapter.getItemCount()-1);
 
+                        } else if (messageList.isEmpty()) { //end if messageList not null
 
+                            //creates new adapter for recyclerview
+                            messageAdapter = new MessageAdapter(getApplicationContext(), messageList);
 
+                            //sets adapter to recyclerview
+                            messageListView.setAdapter(messageAdapter);
 
-                        }//end if messageList not null
-
-
-
-
-
-
-
-
+                        }
 
                     }else if (success == 0){
                         android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
@@ -377,27 +328,13 @@ public class MenuActivity extends AppCompatActivity
                         Log.e("Response", jsonResponse.getString("message"));
                     }
 
-
-
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
-
             }//end onResponse
 
-
-
-
         };//end response listener
-
-
-
 
         //start delayed Runnable to get messages every 5 seconds
         getMessageRunnable.run();
@@ -430,7 +367,6 @@ public class MenuActivity extends AppCompatActivity
                     //makes the keyboard go away
                     closeKeyboard();
 
-
                 }else{
 
                     Toast.makeText(MenuActivity.this, "Type In Text!", Toast.LENGTH_LONG).show();
@@ -439,7 +375,6 @@ public class MenuActivity extends AppCompatActivity
         });
 
     }//end onCreate
-
 
     //Got this from https://codinginflow.com/tutorials/android/hide-soft-keyboard-programmatically
     private void closeKeyboard() {
@@ -450,20 +385,20 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-
-
-
-
-
-
     //  this is the code to stop the Runnable:   mHandler.removeCallbacks(getMessageRunnable);
     Runnable getMessageRunnable = new Runnable() {
         @Override
         public void run() {
 
             //this calls a different constructor for MessageGetRequest which is supposed to return only new messages
-            if (initialMessageRequest == false) {
+            if (initialMessageRequest == false && !timeStampIndex.isEmpty()) {
                 MessageGetRequest refreshRequest = new MessageGetRequest(activeChat, timeStampIndex, refreshListener);
+                RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
+
+                queue.add(refreshRequest);
+
+            } else if (initialMessageRequest == false && timeStampIndex.isEmpty()){
+                MessageGetRequest refreshRequest = new MessageGetRequest(activeChat, "1999-01-01 00:00:01", refreshListener);
                 RequestQueue queue = Volley.newRequestQueue(MenuActivity.this);
 
                 queue.add(refreshRequest);
@@ -474,9 +409,6 @@ public class MenuActivity extends AppCompatActivity
             mHandler.postDelayed(this, 5000);
         }
     };
-
-
-
 
     //menu stuff
     @Override

@@ -58,7 +58,8 @@
             android:id="@+id/joinChatButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/chatroom_join" />
+            android:value="null"
+            />
 
         <Button
             android:id="@+id/createChatButton"
