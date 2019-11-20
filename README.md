@@ -4,12 +4,25 @@ Campus based chat system
 
 # To Do
 
-  + Add create and join functionality to chat room activity
-  + Add chatroom password functionality
+  + Add join functionality to chat room activity
   + Start friends stuff
   + Documentation
 
 # Change Log
+
+  Version 1.0.2
+  
+    UI/XML
+  - Turned chat room recyclerview to set of buttons
+  -chat room menu create button has functionality
+
+  Java
+  - Added requests for create and change chat rooms
+  - Updated ChatRommActivity
+
+  PHP
+  -Added ChangedCgat.php
+  -Heavy modificatiosn to CreateChatroom.php
 
   Version 1.0.1
 
