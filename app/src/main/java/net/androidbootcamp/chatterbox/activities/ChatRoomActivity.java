@@ -51,15 +51,16 @@ public class ChatRoomActivity extends AppCompatActivity
 
     //references
     private EditText newChat;
-    private EditText newPass;
-    private Button joinChatBtn;
+    private EditText newInvite;
+    private Button joinInviteBtn;
+    private Button createInviteBtn;
     private Button createChatBtn;
     private RecyclerView chatListView;
 
     private Response.Listener<String> chatListener;
-    private Response.Listener<String> clickListener;
     private Response.Listener<String> newChatListener;
-
+    private Response.Listener<String> newInviteListener;
+    private Response.Listener<String> joinInviteListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +81,9 @@ public class ChatRoomActivity extends AppCompatActivity
         chatListView.setHasFixedSize(true);
         chatListView.setLayoutManager(new LinearLayoutManager(this));
         newChat = (EditText)findViewById(R.id.enterChatroomName);
-        newPass = (EditText)findViewById(R.id.enterChatroomPassport);
-        joinChatBtn = (Button)findViewById(R.id.joinChatButton);
+        newInvite = (EditText)findViewById(R.id.enterChatroomPassport);
+        joinInviteBtn = (Button)findViewById(R.id.joinChatButton);
+        createInviteBtn = (Button)findViewById(R.id.createInviteButton);
         createChatBtn = (Button)findViewById(R.id.createChatButton);
 
         Intent getUserIntent = getIntent();
@@ -103,6 +105,22 @@ public class ChatRoomActivity extends AppCompatActivity
 
             }
         });
+
+        newInviteListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+
+        };
+
+        joinInviteListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+
+        };
 
         // listens for new chat response and acts accordingly
         newChatListener = new Response.Listener<String>() {

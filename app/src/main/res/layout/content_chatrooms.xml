@@ -40,6 +40,12 @@
             android:textColorHint="@color/colorlightGray"
             android:inputType="textPersonName" />
 
+        <Button
+            android:id="@+id/createChatButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chatroom_create" />
+
         <EditText
             android:id="@+id/enterChatroomPassport"
             android:layout_width="match_parent"
@@ -58,14 +64,14 @@
             android:id="@+id/joinChatButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:value="null"
+            android:text="@string/chatroom_join"
             />
 
         <Button
-            android:id="@+id/createChatButton"
+            android:id="@+id/createInviteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/chatroom_create" />
+            android:text="@string/chatroom_create_invite" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/chats_view"
