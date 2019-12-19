@@ -4,30 +4,27 @@
 
   $db = connectSQL();
   $result = array();
-  $messageArray = array();
   $response = array();
   //Check for mandatory parameter chat_id
-  if(isset($_POST["chat_id"])){
-    $chatID = $_POST["chat_id"];
-    //Query to fetch message details
-    $query = "SELECT chat_id, user_name, message, time_stamp FROM message_full WHERE chat_id=?";
+  if(isset($_GET["chat_id"])){
+    $chatID = $_GET["chat_id"];
+    //Query to fetch message count by chat room id
+    $query = "SELECT COUNT(message) AS count FROM message_full WHERE chat_id=?";
     if($stmt = $db->prepare($query)){
       //Bind chat_id parameter to the query
       $stmt->bind_param('i', $chatID);
       $stmt->execute();
-      //Bind fetched result to variables $chatID, $user, $msg, and $time
-      $stmt->bind_result($chatID, $user, $msg, $time);
+      //Bind fetched result to the variable count
+      $stmt->bind_result($count);
       //Fetch a single row at a time
-      while($stmt->fetch()){
-        $messageArray["chat"] = $chatID;
-        $messageArray["user"] = $user;
-        $messageArray["message"] = $msg;
-        $messageArray["timestamp"] = $time;
-        $result[] = $messageArray;
+      if($stmt->fetch()){
+        $response["success"] = 1;
+        $response["count"] = $count;
+      }else{
+        $response["success"] = 0;
+        $response["message"] = "Message retrieval failed.";
+        $db->close();
       }
-      $response["success"] = 1;
-      $response["data"] = $result;
-      $db->close();
     
     }else{
       //When some error occurs

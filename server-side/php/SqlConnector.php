@@ -7,7 +7,7 @@
       $user = getConnectionUser();
       $pass = getConnectionPassword();
       $database = "TeamBlues";
-      $server = "192.168.1.90";
+      $server = "192.168.1.64";
 
       $db = new mysqli($server, $user, $pass, $database, 3306);
 

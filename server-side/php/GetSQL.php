@@ -4,7 +4,7 @@
     $user = "PassBot";
     $pass = "b4Dp4S5";
     $database = $db;
-    $server = "192.168.1.90";
+    $server = "192.168.1.64";
 
     //Create a new mysqli object named $db,
     //and connect it to the database
@@ -35,7 +35,7 @@
     $user = "PassBot";
     $pass = "b4Dp4S5";
     $database = $db;
-    $server = "192.168.1.90";
+    $server = "192.168.1.64";
 
     $db = new mysqli($server, $user, $pass, $database, 3306);
 
