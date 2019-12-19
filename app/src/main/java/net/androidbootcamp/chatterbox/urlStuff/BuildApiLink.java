@@ -2,9 +2,9 @@ package net.androidbootcamp.chatterbox.urlStuff;
 
 public class BuildApiLink {
 
-    private static String urlBase = "http://192.168.1.90/";
+    private static String urlBase = "http://192.168.1.64/";
     //private String urlBase = "http://192.168.0.37/";
-    //private String urlBase = "http://teamblues.x10host.com/MessageRefresh.php";
+    //private String urlBase = "http://teamblues.x10host.com/";
 
     /**********************************************************
      Builds full URL using the predefined base in this class

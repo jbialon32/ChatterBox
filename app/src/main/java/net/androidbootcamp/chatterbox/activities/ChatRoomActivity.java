@@ -25,8 +25,10 @@ import com.android.volley.toolbox.Volley;
 
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.adapters.ChatroomAdapter;
+import net.androidbootcamp.chatterbox.inviteGen.InviteGenerator;
 import net.androidbootcamp.chatterbox.objects.ChatroomObject;
 import net.androidbootcamp.chatterbox.requests.ChangeChatRequest;
+import net.androidbootcamp.chatterbox.requests.CreateChatInviteRequest;
 import net.androidbootcamp.chatterbox.requests.CreateChatRequest;
 import net.androidbootcamp.chatterbox.requests.GetChatIDRequest;
 
@@ -51,15 +53,16 @@ public class ChatRoomActivity extends AppCompatActivity
 
     //references
     private EditText newChat;
-    private EditText newPass;
-    private Button joinChatBtn;
+    private EditText newInvite;
+    private Button joinInviteBtn;
+    private Button createInviteBtn;
     private Button createChatBtn;
     private RecyclerView chatListView;
 
     private Response.Listener<String> chatListener;
-    private Response.Listener<String> clickListener;
     private Response.Listener<String> newChatListener;
-
+    private Response.Listener<String> newInviteListener;
+    private Response.Listener<String> joinInviteListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +83,9 @@ public class ChatRoomActivity extends AppCompatActivity
         chatListView.setHasFixedSize(true);
         chatListView.setLayoutManager(new LinearLayoutManager(this));
         newChat = (EditText)findViewById(R.id.enterChatroomName);
-        newPass = (EditText)findViewById(R.id.enterChatroomPassport);
-        joinChatBtn = (Button)findViewById(R.id.joinChatButton);
+        newInvite = (EditText)findViewById(R.id.enterChatroomPassport);
+        joinInviteBtn = (Button)findViewById(R.id.joinChatButton);
+        createInviteBtn = (Button)findViewById(R.id.createInviteButton);
         createChatBtn = (Button)findViewById(R.id.createChatButton);
 
         Intent getUserIntent = getIntent();
@@ -103,6 +107,56 @@ public class ChatRoomActivity extends AppCompatActivity
 
             }
         });
+
+        // Adds functionality to createChatBtn
+        createInviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String inviteCode = InviteGenerator.Generate();
+
+                CreateChatInviteRequest createInviteRequest = new CreateChatInviteRequest(String.valueOf(currentActiveChat), inviteCode, newInviteListener);
+                RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                queue.add(createInviteRequest);
+            }
+        });
+
+            //TO-DO make joinChatInviteListener
+
+        newInviteListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    int success = jsonResponse.getInt("success");
+                    String inviteCode = jsonResponse.getString("message");
+
+                    if(success == 1) {
+
+                        newInvite.setText(inviteCode);
+
+                    } else if(success == 2){
+
+                        inviteCode = InviteGenerator.Generate();
+                        CreateChatInviteRequest createInviteRequest = new CreateChatInviteRequest(String.valueOf(currentActiveChat), inviteCode, newInviteListener);
+
+                        RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                        queue.add(createInviteRequest);
+
+                    } else {
+                        Log.e("Response", jsonResponse.getString("message"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
 
         // listens for new chat response and acts accordingly
         newChatListener = new Response.Listener<String>() {
