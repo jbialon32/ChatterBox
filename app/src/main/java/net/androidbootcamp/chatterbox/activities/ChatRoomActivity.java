@@ -31,6 +31,7 @@ import net.androidbootcamp.chatterbox.requests.ChangeChatRequest;
 import net.androidbootcamp.chatterbox.requests.CreateChatInviteRequest;
 import net.androidbootcamp.chatterbox.requests.CreateChatRequest;
 import net.androidbootcamp.chatterbox.requests.GetChatIDRequest;
+import net.androidbootcamp.chatterbox.requests.JoinChatInviteRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,7 +123,53 @@ public class ChatRoomActivity extends AppCompatActivity
             }
         });
 
-            //TO-DO make joinChatInviteListener
+        // Adds functionality to acceptInviteBtn
+        joinInviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (newInvite.getText().toString().length() > 0) {
+
+                    String inviteCode = newInvite.getText().toString();
+
+                    JoinChatInviteRequest joinInviteRequest = new JoinChatInviteRequest(loggedInUser, inviteCode, joinInviteListener);
+                    RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                    queue.add(joinInviteRequest);
+                }
+            }
+        });
+
+        joinInviteListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    int success = jsonResponse.getInt("success");
+
+                    if(success == 1) {
+
+                        Intent intent = new Intent(ChatRoomActivity.this, MenuActivity.class);
+
+                        //this will pass the userID sent from server to the MenuActivity
+                        intent.putExtra("userID", loggedInUser); // passes the username received from userID to the MenuActivity
+
+                        //start the MenuActivity
+                        ChatRoomActivity.this.startActivity(intent);
+
+                    } else {
+                        Log.e("Response", jsonResponse.getString("message"));
+                        newInvite.setText("Invalid Invite");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
 
         newInviteListener = new Response.Listener<String>() {
             @Override
