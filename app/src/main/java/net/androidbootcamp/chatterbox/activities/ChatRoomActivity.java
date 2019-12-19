@@ -25,8 +25,10 @@ import com.android.volley.toolbox.Volley;
 
 import net.androidbootcamp.chatterbox.R;
 import net.androidbootcamp.chatterbox.adapters.ChatroomAdapter;
+import net.androidbootcamp.chatterbox.inviteGen.InviteGenerator;
 import net.androidbootcamp.chatterbox.objects.ChatroomObject;
 import net.androidbootcamp.chatterbox.requests.ChangeChatRequest;
+import net.androidbootcamp.chatterbox.requests.CreateChatInviteRequest;
 import net.androidbootcamp.chatterbox.requests.CreateChatRequest;
 import net.androidbootcamp.chatterbox.requests.GetChatIDRequest;
 
@@ -106,20 +108,54 @@ public class ChatRoomActivity extends AppCompatActivity
             }
         });
 
+        // Adds functionality to createChatBtn
+        createInviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String inviteCode = InviteGenerator.Generate();
+
+                CreateChatInviteRequest createInviteRequest = new CreateChatInviteRequest(String.valueOf(currentActiveChat), inviteCode, newInviteListener);
+                RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                queue.add(createInviteRequest);
+            }
+        });
+
+            //TO-DO make joinChatInviteListener
+
         newInviteListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
+                try {
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    int success = jsonResponse.getInt("success");
+                    String inviteCode = jsonResponse.getString("message");
+
+                    if(success == 1) {
+
+                        newInvite.setText(inviteCode);
+
+                    } else if(success == 2){
+
+                        inviteCode = InviteGenerator.Generate();
+                        CreateChatInviteRequest createInviteRequest = new CreateChatInviteRequest(String.valueOf(currentActiveChat), inviteCode, newInviteListener);
+
+                        RequestQueue queue = Volley.newRequestQueue(ChatRoomActivity.this);
+
+                        queue.add(createInviteRequest);
+
+                    } else {
+                        Log.e("Response", jsonResponse.getString("message"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
-
-        };
-
-        joinInviteListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-            }
-
         };
 
         // listens for new chat response and acts accordingly

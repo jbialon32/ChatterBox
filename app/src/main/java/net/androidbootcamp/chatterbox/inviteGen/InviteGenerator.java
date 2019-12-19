@@ -1,5 +1,7 @@
 package net.androidbootcamp.chatterbox.inviteGen;
 
+import java.util.Random;
+
 public class InviteGenerator {
 
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -11,14 +13,14 @@ public class InviteGenerator {
         int i = 5;
         String inviteReturn = "";
 
-        randChar1 = GenRandomChar();
-        randChar2 = GenRandomChar();
+        randChar1 = genRandomChar();
+        randChar2 = genRandomChar();
 
-        inviteReturn += randChar1 + randChar2 + "-";
+        inviteReturn = String.format("%c%c", randChar1, randChar2);
 
         while(i > 0) {
 
-            inviteReturn += GenRandomNum();
+            inviteReturn += genRandomNum(0, 9);
             i--;
 
         }
@@ -27,27 +29,28 @@ public class InviteGenerator {
 
     }
 
-    private static char GenRandomChar(){
+    private static char genRandomChar(){
 
         char rand;
         int min = 0;
-        int max = ALPHABET.length()-1;
+        int max = 51;
+        int randomPos = genRandomNum(min, max);
 
-        rand = ALPHABET.charAt((int)(Math.random()*((max-min)+1))+min);
+        rand = ALPHABET.charAt(randomPos);
 
         return rand;
 
     }
 
-    private static int GenRandomNum(){
+    private static int genRandomNum(int min, int max){
 
-        int rand;
-        int min = 0;
-        int max = 9;
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
 
-        rand = (int)(Math.random()*((max-min)+1))+min;
+        Random rand = new Random();
 
-        return rand;
+        return rand.nextInt((max - min) + 1) + min;
 
     }
 

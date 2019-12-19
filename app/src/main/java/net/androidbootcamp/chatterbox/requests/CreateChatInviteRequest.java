@@ -16,7 +16,6 @@ public class CreateChatInviteRequest extends StringRequest {
 
     public CreateChatInviteRequest(String chatID,
                                    String inviteCode,
-                                   String perm,
                                    Response.Listener<String> listener
     ) {
         super(Request.Method.POST, NEW_CHAT_REQUEST_URL, listener, null);
