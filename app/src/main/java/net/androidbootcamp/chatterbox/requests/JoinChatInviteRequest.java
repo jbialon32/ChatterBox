@@ -17,8 +17,8 @@ public class JoinChatInviteRequest extends StringRequest {
         super(Method.POST, JOIN_INVITE_URL, listener, null);
         params = new HashMap<>();
 
-        params.put("user_id", userID);
-        params.put("invite_code", inviteCode);
+        params.put("user_id", String.valueOf(userID));
+        params.put("invite_code", String.valueOf(inviteCode));
 
     }
 

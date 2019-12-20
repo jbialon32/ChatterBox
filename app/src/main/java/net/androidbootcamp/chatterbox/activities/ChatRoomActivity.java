@@ -159,6 +159,12 @@ public class ChatRoomActivity extends AppCompatActivity
                         //start the MenuActivity
                         ChatRoomActivity.this.startActivity(intent);
 
+                    }
+                    if(success == 2) {
+
+                        Log.e("Response", jsonResponse.getString("message"));
+                        newInvite.setText("You are already a member of that chat.");
+
                     } else {
                         Log.e("Response", jsonResponse.getString("message"));
                         newInvite.setText("Invalid Invite");
