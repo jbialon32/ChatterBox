@@ -59,9 +59,10 @@
     <string name="new_friends_description">Add a friend by username or email</string>
 
     <!-- Strings related to finding friends-->
-    <string name="find_friends_description">Enter a friends username or email</string>
+    <string name="find_friends_description">Find Friends</string>
     <string name="friend_username_hint">Enter a friend\'s username or email</string>
     <string name="friend_username_btn">Find User</string>
+    <string name="add_username_btn">Add</string>
 
     <!-- Strings related to help-->
     <string name="help_link">Help | Privacy | Terms and Conditions</string>
