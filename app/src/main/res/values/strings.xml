@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ChatterBox</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -11,6 +12,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="register_link">"New to ChatterBox?\n<u>Register</u>"</string>
     <string name="LogoDescription">"ChatterBox Logo"</string>
+
     <!-- Strings related to registration -->
     <string name="reg_username">username</string>
     <string name="reg_email">email</string>
@@ -20,6 +22,7 @@
     <string name="reg_password2">reenter password</string>
     <string name="terms_link">"I agree to Chatterbox's \n<u>Terms and Conditions</u>"</string>
     <string name="reg_signup">Sign Up</string>
+
     <!-- Strings related to navbar -->
     <string name="channel_title">Chatroom</string><!-- Would like to make this a variable for #channel -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -28,6 +31,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
     <!-- Strings related to menu -->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -37,9 +41,11 @@
     <string name="menu_send">Send</string>
     <string name="menu_chatrooms">Chatrooms</string>
     <string name="menu_friends">Friends</string>
+
     <!-- Strings related to chat content -->
     <string name="typing_box_hint">Message chatroom</string>
     <string name="title_activity_chatroom">Manage Chatrooms</string>
+
     <!-- Strings related to chatrooms list -->
     <string name="chatroom_name_hint">chatroom name</string>
     <string name="chatroom_passport_hint">chatroom invite</string>
@@ -47,6 +53,19 @@
     <string name="chatroom_join">Join</string>
     <string name="chatroom_create">Create</string>
     <string name="chatroom_create_invite">Create Invite</string>
+
+    <!-- Strings related to current friends-->
+    <string name="title_activity_friends">Manage Friends</string>
+    <string name="new_friends_description">Add a friend by username or email</string>
+
+    <!-- Strings related to finding friends-->
+    <string name="find_friends_description">Enter a friends username or email</string>
+    <string name="friend_username_hint">Enter a friend\'s username or email</string>
+    <string name="friend_username_btn">Find User</string>
+
+    <!-- Strings related to help-->
+    <string name="help_link">Help | Privacy | Terms and Conditions</string>
+    <string name="title_activity_help">Help | Privacy | Terms and Conditions</string>
     <string name="large_text">
         "Help\n\n"
 
@@ -120,10 +139,5 @@ the college. Each user shall act in an ethical manner consistent with the
 stated goals and Information Technology (IT) mission of St. Charles
 Community College.\n\n"
     </string>
-    <string name="title_activity_friends">Manage Friends</string>
-    <string name="friend_username_hint">friend\'s username or email</string>
-    <string name="new_friends_description">Add a friend by username or email</string>
-    <string name="help_link">Help | Privacy | Terms and Conditions</string>
-    <string name="title_activity_help">Help | Privacy | Terms and Conditions</string>
 
 </resources>
