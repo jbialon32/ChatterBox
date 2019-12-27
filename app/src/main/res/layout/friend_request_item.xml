@@ -17,21 +17,32 @@
 
     <TextView
         android:id="@+id/message_body"
-        android:layout_width="258dp"
-        android:layout_height="51dp"
+        android:layout_width="206dp"
+        android:layout_height="61dp"
         android:padding="4dp"
+        android:singleLine="true"
         android:text="Placeholder Friend Name"
         android:textColor="@color/colorBlack"
         android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="125dp"
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="100dp"
         android:layout_height="61dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginLeft="9dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
         android:layout_toEndOf="@+id/message_body"
         android:layout_toRightOf="@+id/message_body"
-        android:text="Offline"
-        android:textSize="24sp" />
+        android:text="ADD" />
+
+    <Button
+        android:id="@+id/denyBtn"
+        android:layout_width="100dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="-6dp"
+        android:layout_marginLeft="-6dp"
+        android:layout_toEndOf="@+id/addBtn"
+        android:layout_toRightOf="@+id/addBtn"
+        android:text="DENY" />
+
 </RelativeLayout>
